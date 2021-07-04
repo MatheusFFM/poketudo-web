@@ -1,5 +1,20 @@
 <template>
-  <div>Pokemon</div>
+  <div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+    <div>Pokemons</div>
+  </div>
 </template>
 
 <script lang="ts">
