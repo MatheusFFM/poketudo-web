@@ -1,6 +1,11 @@
 <template>
-  <v-app-bar app color="white" flat>
-    <v-tabs centered class="ml-n9" color="grey darken-1">
+  <v-app-bar app color="primary" flat>
+    <v-tabs
+      centered
+      class="ml-n9"
+      color="secondary"
+      slider-color="accentSecondary"
+    >
       <v-tab v-for="link in links" :key="link.name" :to="getPath(link.path)">
         <v-router-link>{{ link.name }}</v-router-link>
       </v-tab>
