@@ -1,13 +1,22 @@
 <template>
   <div>
     <div v-if="pokemon">
-      {{ pokemon.name }}
+      {{ capitalizeName(pokemon.name) }}
       <v-img
         :lazy-src="getPokemonImg(pokemon.sprites.other)"
         max-height="300"
         max-width="421"
         :src="getPokemonImg(pokemon.sprites.other)"
+        contain
       ></v-img>
+      <v-chip
+        v-for="type in pokemon.types"
+        :key="type.slot"
+        class="ma-2"
+        :color="getTypeColor(type.type.name)"
+        text-color="white"
+        >{{ capitalizeType(type.type.name) }}
+      </v-chip>
     </div>
   </div>
 </template>
@@ -18,6 +27,7 @@ import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Result } from "@/models/PokemonsList/Result";
 import { getPokemonsByName } from "@/service/pokemons";
 import { Other } from "@/models/Pokemons/Other";
+import { colors } from "@/models/Type/colors";
 
 @Component
 export default class PokemonCard extends Vue {
@@ -27,6 +37,28 @@ export default class PokemonCard extends Vue {
 
   private mounted() {
     this.loadPokemon();
+  }
+
+  private capitalizeName(name: string): string {
+    const spplitedName = name.split("-");
+    const allUpperCase = ["GMAX"];
+    spplitedName.map((n, index) => {
+      if (allUpperCase.includes(n.toUpperCase())) {
+        n = n.toUpperCase();
+      } else {
+        n = n.charAt(0).toUpperCase() + n.slice(1);
+      }
+      spplitedName[index] = n;
+    });
+    return spplitedName.join(" ");
+  }
+
+  private getTypeColor(name: string): string {
+    return (colors as never)[name];
+  }
+
+  private capitalizeType(name: string): string {
+    return name.charAt(0).toUpperCase() + name.slice(1);
   }
 
   private getPokemonImg(other: Other): string {

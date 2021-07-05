@@ -2,11 +2,12 @@
   <div>
     <div v-if="pokemonsList">
       <v-pagination
+        class="my-10 mx-8"
         color="secondary"
         circle
         v-model="page"
         :length="totalPages"
-        :total-visible="7"
+        :total-visible="15"
       ></v-pagination>
       <PokemonCard
         v-for="pokemon in pokemonsList.results"
@@ -14,11 +15,12 @@
         :pokemonResult="pokemon"
       />
       <v-pagination
+        class="my-10 mx-8"
         color="secondary"
         circle
         v-model="page"
         :length="totalPages"
-        :total-visible="7"
+        :total-visible="15"
       ></v-pagination>
     </div>
   </div>
