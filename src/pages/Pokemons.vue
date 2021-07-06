@@ -1,19 +1,28 @@
 <template>
-  <div>
+  <v-container fluid class="px-3 px-sm-5 px-md-7 px-lg-12">
     <div v-if="pokemonsList">
       <v-pagination
-        class="my-10 mx-8"
+        class="my-10"
         color="secondary"
         circle
         v-model="page"
         :length="totalPages"
         :total-visible="15"
       ></v-pagination>
-      <PokemonCard
-        v-for="pokemon in pokemonsList.results"
-        :key="pokemon.name"
-        :pokemonResult="pokemon"
-      />
+
+      <v-row dense>
+        <v-col
+          v-for="pokemon in pokemonsList.results"
+          :key="pokemon.name"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+        >
+          <PokemonCard :pokemonResult="pokemon" />
+        </v-col>
+      </v-row>
+
       <v-pagination
         class="my-10 mx-8"
         color="secondary"
@@ -23,7 +32,7 @@
         :total-visible="15"
       ></v-pagination>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -39,7 +48,7 @@ import { getPokemons } from "../service/pokemons";
 })
 export default class Pokemons extends Vue {
   public offset = 0;
-  public limit = 20;
+  public limit = 100;
   public page = 1;
   public totalPages = 1;
   public pokemonsList: PokemonsList | null = null;
