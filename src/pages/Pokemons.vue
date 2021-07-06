@@ -48,7 +48,7 @@ import { getPokemons } from "../service/pokemons";
 })
 export default class Pokemons extends Vue {
   public offset = 0;
-  public limit = 100;
+  public limit = 52;
   public page = 1;
   public totalPages = 1;
   public pokemonsList: PokemonsList | null = null;
