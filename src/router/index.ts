@@ -9,13 +9,26 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home,
+    props: {
+      menu: true,
+    },
   },
   {
     path: "/pokemons",
     name: "pokemons",
+    props: {
+      menu: true,
+    },
+    component: () => import("../pages/Pokemons.vue"),
+  },
+  {
+    path: "/pokemon/:name",
+    name: "pokemon",
+    props: {
+      menu: false,
+    },
 
-    component: () =>
-      import("../pages/Pokemons.vue"),
+    component: () => import("../pages/Pokemon.vue"),
   },
 ];
 

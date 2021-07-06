@@ -19,7 +19,9 @@
           md="4"
           lg="3"
         >
-          <PokemonCard :pokemonResult="pokemon" />
+          <router-link :to="'/pokemon/' + pokemon.name">
+            <PokemonCard :pokemonResult="pokemon" />
+          </router-link>
         </v-col>
       </v-row>
 

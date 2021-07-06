@@ -4,8 +4,8 @@
       elevation="4"
       max-height="400px"
       min-height="370px"
-      v-if="pokemon && specie"
       class="ma-4 px-5 pb-3 pokemon-card"
+      v-if="pokemon && specie"
       :class="{ 'pt-7': !specie, 'pt-0 ': !!specie }"
       :style="{
         'border-color': getTypeColor(pokemon.types[0].type.name) + '!important',
@@ -18,21 +18,21 @@
         #{{ formatPokedexNumber(specie.pokedex_numbers[0].entry_number) }}
       </v-card-subtitle>
       <v-img
-        :lazy-src="getPokemonImg(pokemon.sprites.other)"
+        contain
         height="200px"
         max-height="200px"
         :src="getPokemonImg(pokemon.sprites.other)"
-        contain
+        :lazy-src="getPokemonImg(pokemon.sprites.other)"
       ></v-img>
       <v-card-title class="text-h6 mt-1 pb-2 card-title"
         ><span>{{ capitalizeName(pokemon.name) }}</span>
       </v-card-title>
       <v-chip
-        v-for="type in pokemon.types"
-        :key="type.slot"
         class="ma-2 mt-1"
-        :color="getTypeColor(type.type.name)"
         text-color="white"
+        :key="type.slot"
+        :color="getTypeColor(type.type.name)"
+        v-for="type in pokemon.types"
         >{{ capitalizeType(type.type.name) }}
       </v-chip>
     </v-card>
@@ -67,6 +67,13 @@ export default class PokemonCard extends Vue {
   }
 
   private capitalizeName(name: string): string {
+    if (this.specie?.names) {
+      for (let n of this.specie.names) {
+        if (n.language.name === "en") {
+          return n.name;
+        }
+      }
+    }
     const spplitedName = name.split("-");
     const allUpperCase = ["GMAX"];
     spplitedName.map((n, index) => {
