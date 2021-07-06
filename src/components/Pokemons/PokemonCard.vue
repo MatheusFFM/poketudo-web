@@ -125,6 +125,13 @@ export default class PokemonCard extends Vue {
   border: solid 5px !important;
   border-radius: 30px !important;
 }
+.pokemon-card:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  transition: 0.6s;
+  transition-delay: 0.25s;
+  filter: brightness(110%);
+}
 .container-loading {
   height: 360px;
   display: flex;
