@@ -59,6 +59,11 @@ export default class Pokemons extends Vue {
 
   @Watch("page")
   private async reloadPokemons() {
+    window.scrollTo({
+      top: 100,
+      left: 100,
+      behavior: "smooth",
+    });
     this.offset = this.limit * (this.page - 1);
     const response = await getPokemons(this.offset, this.limit);
     if (response) {

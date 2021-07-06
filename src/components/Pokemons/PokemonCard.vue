@@ -53,7 +53,6 @@ export default class PokemonCard extends Vue {
   @Prop()
   public pokemonResult!: Result;
   public pokemon: Pokemon | null = null;
-  public imageLoaded = false;
 
   private mounted() {
     this.loadPokemon();
@@ -74,7 +73,7 @@ export default class PokemonCard extends Vue {
   }
 
   public get loading(): boolean {
-    return !!this.pokemon && this.imageLoaded;
+    return !!this.pokemon;
   }
 
   private getTypeColor(name: string): string {
@@ -86,9 +85,7 @@ export default class PokemonCard extends Vue {
   }
 
   private getPokemonImg(other: Other): string {
-    this.imageLoaded = false;
     if (other.dream_world.front_default) {
-      this.imageLoaded = true;
       return other.dream_world.front_default;
     }
     const officialArtwork = "front_default";
@@ -101,11 +98,9 @@ export default class PokemonCard extends Vue {
     );
     const indexSufix = partialUrl.indexOf('"');
     if (indexSufix === -1) {
-      this.imageLoaded = true;
       return require("@/assets/NoPokemon.png");
     }
     const url = partialUrl.substring(0, indexSufix);
-    this.imageLoaded = true;
     return url;
   }
 
