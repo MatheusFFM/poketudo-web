@@ -1,23 +1,37 @@
 <template>
   <div>
-    <div v-if="pokemon">
-      {{ capitalizeName(pokemon.name) }}
+    <v-card
+      elevation="4"
+      max-height="400px"
+      min-height="370px"
+      v-if="pokemon"
+      class="ma-4 px-5 pt-7 pokemon-card"
+      :style="{
+        'border-color': getTypeColor(pokemon.types[0].type.name) + '!important',
+      }"
+    >
       <v-img
         :lazy-src="getPokemonImg(pokemon.sprites.other)"
-        max-height="300"
-        max-width="421"
+        height="200px"
+        max-height="200px"
         :src="getPokemonImg(pokemon.sprites.other)"
         contain
       ></v-img>
-      <v-chip
-        v-for="type in pokemon.types"
-        :key="type.slot"
-        class="ma-2"
-        :color="getTypeColor(type.type.name)"
-        text-color="white"
-        >{{ capitalizeType(type.type.name) }}
-      </v-chip>
-    </div>
+      <v-card-title
+        class="text-h6 mt-3 pb-2 card-title"
+        v-text="capitalizeName(pokemon.name)"
+      ></v-card-title>
+      <v-list-item-subtitle>
+        <v-chip
+          v-for="type in pokemon.types"
+          :key="type.slot"
+          class="ma-2"
+          :color="getTypeColor(type.type.name)"
+          text-color="white"
+          >{{ capitalizeType(type.type.name) }}
+        </v-chip>
+      </v-list-item-subtitle>
+    </v-card>
   </div>
 </template>
 
@@ -91,3 +105,9 @@ export default class PokemonCard extends Vue {
   }
 }
 </script>
+<style scoped>
+.pokemon-card {
+  border: solid 5px !important;
+  border-radius: 30px !important;
+}
+</style>
