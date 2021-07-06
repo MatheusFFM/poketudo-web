@@ -4,12 +4,19 @@
       elevation="4"
       max-height="400px"
       min-height="370px"
-      v-if="pokemon"
-      class="ma-4 px-5 pt-7 pokemon-card"
+      v-if="pokemon && specie"
+      class="ma-4 px-5 pb-3 pokemon-card"
+      :class="{ 'pt-7': !specie, 'pt-0 ': !!specie }"
       :style="{
         'border-color': getTypeColor(pokemon.types[0].type.name) + '!important',
       }"
     >
+      <v-card-subtitle
+        v-if="specie"
+        class="text-h8 font-weight-bold card-subtitle pb-1"
+      >
+        #{{ formatPokedexNumber(specie.pokedex_numbers[0].entry_number) }}
+      </v-card-subtitle>
       <v-img
         :lazy-src="getPokemonImg(pokemon.sprites.other)"
         height="200px"
@@ -17,19 +24,17 @@
         :src="getPokemonImg(pokemon.sprites.other)"
         contain
       ></v-img>
-      <v-card-title class="text-h6 mt-3 pb-2 card-title"
-        ><span>{{ capitalizeName(pokemon.name) }}</span></v-card-title
-      >
-      <v-list-item-subtitle>
-        <v-chip
-          v-for="type in pokemon.types"
-          :key="type.slot"
-          class="ma-2"
-          :color="getTypeColor(type.type.name)"
-          text-color="white"
-          >{{ capitalizeType(type.type.name) }}
-        </v-chip>
-      </v-list-item-subtitle>
+      <v-card-title class="text-h6 mt-1 pb-2 card-title"
+        ><span>{{ capitalizeName(pokemon.name) }}</span>
+      </v-card-title>
+      <v-chip
+        v-for="type in pokemon.types"
+        :key="type.slot"
+        class="ma-2 mt-1"
+        :color="getTypeColor(type.type.name)"
+        text-color="white"
+        >{{ capitalizeType(type.type.name) }}
+      </v-chip>
     </v-card>
     <div class="container-loading" v-else><LoadingPokeball /></div>
   </div>
@@ -41,8 +46,10 @@ import LoadingPokeball from "@/components/shared/LoadingPokeball.vue";
 import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Result } from "@/models/PokemonsList/Result";
 import { getPokemonsByName } from "@/service/pokemons";
+import { getSpecieByName } from "@/service/species";
 import { Other } from "@/models/Pokemons/Other";
 import { colors } from "@/models/Type/colors";
+import { Specie } from "@/models/Specie/Specie";
 
 @Component({
   components: {
@@ -53,6 +60,7 @@ export default class PokemonCard extends Vue {
   @Prop()
   public pokemonResult!: Result;
   public pokemon: Pokemon | null = null;
+  public specie: Specie | null = null;
 
   private mounted() {
     this.loadPokemon();
@@ -84,6 +92,14 @@ export default class PokemonCard extends Vue {
     return name.charAt(0).toUpperCase() + name.slice(1);
   }
 
+  private formatPokedexNumber(pokedexNumber: number): string {
+    let result = pokedexNumber.toString();
+    while (result.length < 3) {
+      result = "0".concat(result);
+    }
+    return result;
+  }
+
   private getPokemonImg(other: Other): string {
     if (other.dream_world.front_default) {
       return other.dream_world.front_default;
@@ -109,6 +125,16 @@ export default class PokemonCard extends Vue {
       const pokemonFetched = await getPokemonsByName(this.pokemonResult.name);
       if (pokemonFetched) {
         this.pokemon = pokemonFetched;
+        this.loadSpecie();
+      }
+    }
+  }
+
+  private async loadSpecie() {
+    if (this.pokemon?.species) {
+      const specieFetched = await getSpecieByName(this.pokemon.species.name);
+      if (specieFetched) {
+        this.specie = specieFetched;
       }
     }
   }
@@ -132,6 +158,11 @@ export default class PokemonCard extends Vue {
   flex-direction: column;
   align-content: center;
   align-items: center;
+}
+.card-subtitle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 .container-loading {
   height: 360px;

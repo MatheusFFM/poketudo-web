@@ -8,12 +8,15 @@ export const api = axios.create({
   baseURL,
 });
 
-export const makeDefaultRequest = async (url: string): Promise<any> => {
+export const makeDefaultRequest = async (
+  url: string
+): Promise<Pokemon | null> => {
   const urlRequest = url.replace(baseURL, "");
   try {
     return await api.get(urlRequest).then((res) => res.data);
   } catch (err) {
     console.error(err);
+    return null;
   }
 };
 
