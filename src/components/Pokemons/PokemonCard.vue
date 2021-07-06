@@ -17,10 +17,9 @@
         :src="getPokemonImg(pokemon.sprites.other)"
         contain
       ></v-img>
-      <v-card-title
-        class="text-h6 mt-3 pb-2 card-title"
-        v-text="capitalizeName(pokemon.name)"
-      ></v-card-title>
+      <v-card-title class="text-h6 mt-3 pb-2 card-title"
+        ><span>{{ capitalizeName(pokemon.name) }}</span></v-card-title
+      >
       <v-list-item-subtitle>
         <v-chip
           v-for="type in pokemon.types"
@@ -124,6 +123,7 @@ export default class PokemonCard extends Vue {
 .pokemon-card {
   border: solid 5px !important;
   border-radius: 30px !important;
+  text-align: center !important;
 }
 .pokemon-card:hover {
   transform: scale(1.05);
@@ -131,6 +131,12 @@ export default class PokemonCard extends Vue {
   transition: 0.6s;
   transition-delay: 0.25s;
   filter: brightness(110%);
+}
+.card-title {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
 .container-loading {
   height: 360px;
