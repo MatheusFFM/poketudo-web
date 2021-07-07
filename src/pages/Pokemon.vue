@@ -5,6 +5,9 @@
       :pokemon="pokemon"
       :specie="specie"
     />
+    <div class="fill" v-else>
+      <LoadingPokeball />
+    </div>
   </transition>
 </template>
 
@@ -15,10 +18,12 @@ import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
 import { getPokemonsByName } from "@/service/pokemons";
 import { getSpecieByName } from "@/service/species";
+import LoadingPokeball from "@/components/shared/LoadingPokeball.vue";
 
 @Component({
   components: {
     PokemonInfos,
+    LoadingPokeball,
   },
 })
 export default class Pokemons extends Vue {
@@ -29,7 +34,8 @@ export default class Pokemons extends Vue {
     return this.$route.params.name;
   }
 
-  public mounted() {
+  private mounted() {
+    window.scrollTo(0, 0);
     this.loadPokemon();
   }
 
@@ -53,3 +59,13 @@ export default class Pokemons extends Vue {
   }
 }
 </script>
+<style scoped>
+.fill {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
