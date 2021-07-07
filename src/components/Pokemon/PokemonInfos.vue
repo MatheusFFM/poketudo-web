@@ -1,11 +1,47 @@
 <template>
   <div>
+    <router-link :to="`/pokemon/${last}`">
+      <v-icon
+        x-large
+        color="white"
+        class="left-icon icon-container"
+        @click="$emit('update', last)"
+        :style="{
+          'background-color':
+            getTypeColor(pokemon.types[0].type.name) + '!important',
+        }"
+      >
+        mdi-arrow-left-drop-circle-outline
+      </v-icon>
+    </router-link>
+    <router-link :to="`/pokemon/${next}`">
+      <v-icon
+        x-large
+        color="white"
+        class="right-icon icon-container"
+        @click="$emit('update', next)"
+        :style="{
+          'background-color':
+            getTypeColor(pokemon.types[0].type.name) + '!important',
+        }"
+      >
+        mdi-arrow-right-drop-circle-outline
+      </v-icon></router-link
+    >
     <v-container fluid>
       <v-row class="fill">
         <v-col
           cols="12"
           sm="6"
-          class="d-flex flex-column justify-center align-center px-10 py-7 fill"
+          class="
+            d-flex
+            flex-column
+            justify-center
+            align-center
+            px-2 px-md-10
+            py-7
+            fill
+          "
           :style="{
             'background-color':
               getTypeColor(pokemon.types[0].type.name) + '!important',
@@ -20,8 +56,7 @@
           <v-img
             :lazy-src="getPokemonImg(pokemon.sprites.other)"
             :src="getPokemonImg(pokemon.sprites.other)"
-            min-height="400px"
-            min-width="400px"
+            class="image-container"
             contain
           />
         </v-col>
@@ -63,6 +98,10 @@ export default class PokemonInfos extends Vue {
   public pokemon!: Pokemon;
   @Prop()
   public specie!: Specie;
+  @Prop()
+  public next!: string;
+  @Prop()
+  public last!: string;
 
   private getTypeColor(name: string): string {
     return (colors as never)[name];
@@ -129,15 +168,59 @@ export default class PokemonInfos extends Vue {
 }
 .pokemon-name {
   color: white;
-  font-size: 60px;
+  font-size: 5rem;
+  z-index: 5;
 }
 .pokemon-id {
   color: darkslategray;
 }
 .image-container {
-  background-color: black !important;
+  max-height: 350px;
+  min-width: 350px;
 }
 .image {
   background-color: yellow !important;
+}
+.icon-container {
+  position: fixed;
+  border-radius: 100% !important;
+  font-size: 60px !important;
+  width: 80px;
+  height: 80px;
+  bottom: 10px;
+}
+.icon-container:hover {
+  transition: 0.6s;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+.right-icon {
+  right: 10px;
+}
+.left-icon {
+  left: 10px;
+}
+@media only screen and (max-width: 900px) {
+  .image-container {
+    max-height: 270px;
+    min-width: 270px;
+  }
+  .pokemon-name {
+    font-size: 3.3rem;
+  }
+  .icon-container {
+    font-size: 40px !important;
+    width: 50px;
+    height: 50px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .image-container {
+    max-height: 250px;
+    min-width: 250px;
+  }
+  .pokemon-name {
+    font-size: 3rem;
+  }
 }
 </style>
