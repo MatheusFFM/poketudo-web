@@ -56,6 +56,7 @@ export default class Pokemons extends Vue {
   public pokemonsList: PokemonsList | null = null;
 
   private async mounted() {
+    window.scrollTo(0, 0);
     await this.reloadPokemons();
   }
 
