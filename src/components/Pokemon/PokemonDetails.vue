@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-row class="fill">
-      <v-col cols="12" sm="6"> </v-col>
-      <v-col cols="12" sm="6"> </v-col>
+      <v-col cols="12" sm="6" class="fill"> </v-col>
+      <v-col cols="12" sm="6" class="fill"> </v-col>
     </v-row>
   </div>
 </template>

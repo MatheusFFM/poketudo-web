@@ -19,7 +19,7 @@
           md="4"
           lg="3"
         >
-          <router-link :to="'/pokemon/' + pokemon.name">
+          <router-link class="no-decoration" :to="'/pokemon/' + pokemon.name">
             <PokemonCard :pokemonResult="pokemon" />
           </router-link>
         </v-col>
@@ -76,3 +76,8 @@ export default class Pokemons extends Vue {
   }
 }
 </script>
+<style scoped>
+.no-decoration {
+  text-decoration: none !important;
+}
+</style>

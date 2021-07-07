@@ -17,3 +17,12 @@ import Menu from "./components/shared/Menu.vue";
 })
 export default class App extends Vue {}
 </script>
+
+<style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+</style>
