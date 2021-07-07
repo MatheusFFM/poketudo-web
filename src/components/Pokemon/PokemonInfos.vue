@@ -36,7 +36,6 @@
           class="
             d-flex
             flex-column
-            justify-center
             align-center
             px-2 px-md-10
             py-7
