@@ -27,14 +27,16 @@
       <v-card-title class="text-h6 mt-1 pb-2 card-title"
         ><span>{{ capitalizeName(pokemon.name) }}</span>
       </v-card-title>
-      <v-chip
-        class="ma-2 mt-1"
-        text-color="white"
-        :key="type.slot"
-        :color="getTypeColor(type.type.name)"
-        v-for="type in pokemon.types"
-        >{{ capitalizeType(type.type.name) }}
-      </v-chip>
+      <v-card-text>
+        <v-chip
+          class="ma-2 mt-1"
+          text-color="white"
+          :key="type.slot"
+          :color="getTypeColor(type.type.name)"
+          v-for="type in pokemon.types"
+          >{{ capitalizeType(type.type.name) }}
+        </v-chip>
+      </v-card-text>
     </v-card>
     <div class="container-loading" v-else><LoadingPokeball /></div>
   </div>
