@@ -161,8 +161,8 @@ export default class MainPage extends Vue {
     max-height: 1000px;
   }
   .image-container {
-    max-height: 310px;
-    min-width: 250px;
+    height: 310px;
+    max-width: 90vw;
   }
   .pokemon-name {
     font-size: 3rem;
