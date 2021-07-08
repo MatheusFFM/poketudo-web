@@ -27,6 +27,8 @@ import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
 import { getPokemonsByName } from "@/service/pokemons";
 import { getSpecieByName } from "@/service/species";
+import router from "@/router";
+import goTo from "vuetify/lib/services/goto";
 
 const pokemonListNamespace = namespace(StoreNamespaces.POKEMON_LIST);
 
@@ -42,6 +44,7 @@ export default class Pokemons extends Vue {
   public pokemonName: string | null = null;
   public previus: string | null = null;
   public next: string | null = null;
+  public handler: ((e: any) => void) | undefined;
 
   @pokemonListNamespace.Getter(PokemonListGetterTypes.FETCH_POKEMONS_LIST)
   public pokemonListOnStore!: PokemonsList;
@@ -49,12 +52,38 @@ export default class Pokemons extends Vue {
   @pokemonListNamespace.Action(PokemonListStateActionTypes.LOAD_POKEMON_LIST)
   public fetchStore!: () => Promise<PokemonsList | null>;
 
+  private get pokemonRoute() {
+    return this.$route.params.name;
+  }
+
   private mounted() {
     this.loadPokemon();
   }
 
-  private get pokemonRoute() {
-    return this.$route.params.name;
+  private created() {
+    document.addEventListener("keydown", this.handleKeyboard);
+  }
+  private beforeDestroy() {
+    document.removeEventListener("keydown", this.handleKeyboard);
+  }
+
+  private handleKeyboard(e: any) {
+    if (this.pokemonName !== this.next && this.pokemonName !== this.previus) {
+      if (e.code === "ArrowRight") {
+        if (this.next) {
+          this.goTo(this.next);
+        }
+      }
+      if (e.code === "ArrowLeft") {
+        if (this.previus) {
+          this.goTo(this.previus);
+        }
+      }
+    }
+  }
+
+  private goTo(pokemon: string) {
+    router.push({ name: "pokemon", params: { name: pokemon } });
   }
 
   @Watch("pokemonRoute")
