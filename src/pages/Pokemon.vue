@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { PokemonListStateActionTypes } from "@/store/pokemonListStore/actions";
 import { PokemonListGetterTypes } from "@/store/pokemonListStore/getters";
@@ -50,12 +50,17 @@ export default class Pokemons extends Vue {
   public fetchStore!: () => Promise<PokemonsList | null>;
 
   private mounted() {
-    this.pokemonName = this.$route.params.name;
-    window.scrollTo(0, 0);
     this.loadPokemon();
   }
 
+  private get pokemonRoute() {
+    return this.$route.params.name;
+  }
+
+  @Watch("pokemonRoute")
   private async loadPokemon() {
+    window.scrollTo(0, 0);
+    this.pokemonName = this.pokemonRoute;
     if (!this.pokemonListOnStore) {
       this.fetchStore();
     }
