@@ -25,7 +25,7 @@ import LoadingPokeball from "@/components/shared/LoadingPokeball.vue";
 import { PokemonsList } from "@/models/PokemonsList/PokemonsList";
 import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
-import { getPokemonsByName, getPokemon, getPokemons } from "@/service/pokemons";
+import { getPokemonsByName } from "@/service/pokemons";
 import { getSpecieByName } from "@/service/species";
 
 const pokemonListNamespace = namespace(StoreNamespaces.POKEMON_LIST);
@@ -62,7 +62,7 @@ export default class Pokemons extends Vue {
     window.scrollTo(0, 0);
     this.pokemonName = this.pokemonRoute;
     if (!this.pokemonListOnStore) {
-      this.fetchStore();
+      await this.fetchStore();
     }
     if (this.pokemonName) {
       const pokemonFetched = await getPokemonsByName(this.pokemonName);

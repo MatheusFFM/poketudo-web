@@ -22,10 +22,10 @@
         height="200px"
         max-height="200px"
         transition="fade-transition"
-        @load="onImgLoad"
         :alt="pokemon.name"
         :src="getPokemonImg(pokemon.sprites.other)"
         :lazy-src="getPokemonImg(pokemon.sprites.other)"
+        @load="onImgLoad"
       />
       <v-progress-circular
         indeterminate
@@ -36,7 +36,7 @@
               : pokemon.types[0].type.name
           )
         "
-        v-show="!imageLoaded"
+        v-if="!imageLoaded"
       />
       <v-card-title class="text-h6 mt-1 pb-2 card-title"
         ><span>{{ capitalizeName(pokemon.name) }}</span>
