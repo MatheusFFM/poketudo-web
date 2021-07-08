@@ -88,7 +88,7 @@ export default class Pokemons extends Vue {
       const index = this.pokemonListOnStore.results.findIndex(
         (r) => r.name === this.pokemonName
       );
-      return index <= 1
+      return index <= 0
         ? this.pokemonListOnStore.results[
             this.pokemonListOnStore.results.length - 1
           ].name
