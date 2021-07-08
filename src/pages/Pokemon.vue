@@ -44,6 +44,8 @@ export default class Pokemons extends Vue {
   public pokemonName: string | null = null;
   public previus: string | null = null;
   public next: string | null = null;
+  public xDown: number | null = null;
+  public yDown: number | null = null;
   public handler: ((e: any) => void) | undefined;
 
   @pokemonListNamespace.Getter(PokemonListGetterTypes.FETCH_POKEMONS_LIST)
@@ -61,25 +63,14 @@ export default class Pokemons extends Vue {
   }
 
   private created() {
+    document.addEventListener("touchstart", this.handleTouchStart, false);
+    document.addEventListener("touchmove", this.handleTouchMove, false);
     document.addEventListener("keydown", this.handleKeyboard);
   }
   private beforeDestroy() {
     document.removeEventListener("keydown", this.handleKeyboard);
-  }
-
-  private handleKeyboard(e: any) {
-    if (this.pokemonName !== this.next && this.pokemonName !== this.previus) {
-      if (e.code === "ArrowRight") {
-        if (this.next) {
-          this.goTo(this.next);
-        }
-      }
-      if (e.code === "ArrowLeft") {
-        if (this.previus) {
-          this.goTo(this.previus);
-        }
-      }
-    }
+    document.removeEventListener("touchstart", this.handleTouchStart, false);
+    document.removeEventListener("touchmove", this.handleTouchMove, false);
   }
 
   private goTo(pokemon: string) {
@@ -159,6 +150,65 @@ export default class Pokemons extends Vue {
       });
       this.loadPokemon();
     }
+  }
+
+  private handleKeyboard(e: any) {
+    if (this.pokemonName !== this.next && this.pokemonName !== this.previus) {
+      if (e.code === "ArrowRight") {
+        if (this.next) {
+          this.goTo(this.next);
+        }
+      }
+      if (e.code === "ArrowLeft") {
+        if (this.previus) {
+          this.goTo(this.previus);
+        }
+      }
+    }
+  }
+
+  private getTouches(e: any) {
+    return e.touches || e.originalEvent.touches;
+  }
+
+  private handleTouchStart(e: any) {
+    const firstTouch = this.getTouches(e)[0];
+    this.xDown = firstTouch.clientX;
+    this.yDown = firstTouch.clientY;
+  }
+
+  private handleTouchMove(e: any) {
+    if (!this.xDown || !this.yDown) {
+      return;
+    }
+
+    const xUp = e.touches[0].clientX;
+    const yUp = e.touches[0].clientY;
+
+    const xDiff = this.xDown - xUp;
+    const yDiff = this.yDown - yUp;
+
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+      /*most significant*/
+      if (xDiff > 0) {
+        if (this.previus) {
+          this.goTo(this.previus);
+        }
+      } else {
+        if (this.next) {
+          this.goTo(this.next);
+        }
+      }
+    } else {
+      if (yDiff > 0) {
+        /* up swipe */
+      } else {
+        /* down swipe */
+      }
+    }
+    /* reset values */
+    this.xDown = null;
+    this.yDown = null;
   }
 }
 </script>
