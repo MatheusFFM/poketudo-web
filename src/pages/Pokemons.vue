@@ -39,9 +39,16 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import { PokemonListStateActionTypes } from "@/store/pokemonListStore/actions";
+import { PokemonListGetterTypes } from "@/store/pokemonListStore/getters";
+import { StoreNamespaces } from "@/store/namespaces";
 import PokemonCard from "@/components/Pokemons/PokemonCard.vue";
 import { PokemonsList } from "@/models/PokemonsList/PokemonsList";
 import { getPokemons } from "../service/pokemons";
+import { Result } from "@/models/PokemonsList/Result";
+
+const pokemonListNamespace = namespace(StoreNamespaces.POKEMON_LIST);
 
 @Component({
   components: {
@@ -55,8 +62,24 @@ export default class Pokemons extends Vue {
   public totalPages = 1;
   public pokemonsList: PokemonsList | null = null;
 
+  @pokemonListNamespace.State
+  public pokemonListState!: () => Promise<PokemonsList | null>;
+
+  @pokemonListNamespace.Getter(PokemonListGetterTypes.FETCH_POKEMONS_LIST)
+  public pokemonListOnStore!: PokemonsList;
+
+  @pokemonListNamespace.Getter(PokemonListGetterTypes.FETCH_PAGE)
+  public pageOnStore!: number;
+
+  @pokemonListNamespace.Action(PokemonListStateActionTypes.LOAD_POKEMON_LIST)
+  public fetchStore!: () => Promise<PokemonsList | null>;
+
+  @pokemonListNamespace.Action(PokemonListStateActionTypes.LOAD_PAGE)
+  public updatePage!: (page: number) => Promise<void>;
+
   private async mounted() {
     window.scrollTo(0, 0);
+    this.page = this.pageOnStore || 1;
     await this.reloadPokemons();
   }
 
@@ -68,10 +91,29 @@ export default class Pokemons extends Vue {
       behavior: "smooth",
     });
     this.offset = this.limit * (this.page - 1);
-    const response = await getPokemons(this.offset, this.limit);
-    if (response) {
-      this.totalPages = Math.ceil(response.count / this.limit);
-      this.pokemonsList = response;
+
+    let store = this.pokemonListOnStore;
+
+    if (!store) {
+      await this.fetchStore();
+      store = this.pokemonListOnStore;
+    }
+
+    if (store) {
+      let results: Result[] = store.results;
+      this.totalPages = Math.ceil(store.count / this.limit);
+      results = results.slice(this.offset, this.limit * this.page);
+      this.pokemonsList = { ...store, results };
+      this.updatePage(this.page);
+      return;
+    } else {
+      const response = await getPokemons(this.offset, this.limit);
+      if (response) {
+        this.totalPages = Math.ceil(response.count / this.limit);
+        this.pokemonsList = response;
+        this.limit = this.limit * this.page;
+        this.updatePage(this.page);
+      }
     }
   }
 }

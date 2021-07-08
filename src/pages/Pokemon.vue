@@ -16,12 +16,19 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import { PokemonListStateActionTypes } from "@/store/pokemonListStore/actions";
+import { PokemonListGetterTypes } from "@/store/pokemonListStore/getters";
+import { StoreNamespaces } from "@/store/namespaces";
 import PokemonInfos from "@/components/Pokemon/PokemonInfos.vue";
+import LoadingPokeball from "@/components/shared/LoadingPokeball.vue";
+import { PokemonsList } from "@/models/PokemonsList/PokemonsList";
 import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
 import { getPokemonsByName, getPokemon, getPokemons } from "@/service/pokemons";
 import { getSpecieByName } from "@/service/species";
-import LoadingPokeball from "@/components/shared/LoadingPokeball.vue";
+
+const pokemonListNamespace = namespace(StoreNamespaces.POKEMON_LIST);
 
 @Component({
   components: {
@@ -36,6 +43,12 @@ export default class Pokemons extends Vue {
   public previus: string | null = null;
   public next: string | null = null;
 
+  @pokemonListNamespace.Getter(PokemonListGetterTypes.FETCH_POKEMONS_LIST)
+  public pokemonListOnStore!: PokemonsList;
+
+  @pokemonListNamespace.Action(PokemonListStateActionTypes.LOAD_POKEMON_LIST)
+  public fetchStore!: () => Promise<PokemonsList | null>;
+
   private mounted() {
     this.pokemonName = this.$route.params.name;
     window.scrollTo(0, 0);
@@ -43,15 +56,16 @@ export default class Pokemons extends Vue {
   }
 
   private async loadPokemon() {
+    if (!this.pokemonListOnStore) {
+      this.fetchStore();
+    }
     if (this.pokemonName) {
       const pokemonFetched = await getPokemonsByName(this.pokemonName);
       if (pokemonFetched) {
         this.pokemon = pokemonFetched;
         this.loadSpecie();
-        this.previus = await this.loadPreviusPokemon(this.pokemon.id - 1);
-        this.next =
-          (await this.loadNextPokemon(this.pokemon.id + 1)) ||
-          (await this.loadNextPokemon(1));
+        this.previus = await this.loadPreviusPokemon();
+        this.next = await this.loadNextPokemon();
       }
     }
   }
@@ -65,34 +79,40 @@ export default class Pokemons extends Vue {
     }
   }
 
-  private async loadPreviusPokemon(id: number): Promise<string | null> {
-    if (id === 0) {
-      const pokemonsFetched = await getPokemons(0, 1);
-      if (pokemonsFetched) {
-        id = pokemonsFetched?.count;
-      }
+  private async loadPreviusPokemon(): Promise<string | null> {
+    if (!this.pokemonListOnStore) {
+      this.fetchStore();
     }
-    if (id !== 0) {
-      const pokemonFetched = await getPokemon(id);
-      if (pokemonFetched) {
-        return pokemonFetched.name;
-      }
+
+    if (this.pokemonListOnStore && this.pokemonName) {
+      const index = this.pokemonListOnStore.results.findIndex(
+        (r) => r.name === this.pokemonName
+      );
+      return index <= 1
+        ? this.pokemonListOnStore.results[
+            this.pokemonListOnStore.results.length - 1
+          ].name
+        : this.pokemonListOnStore.results[index - 1].name;
     }
-    return this.pokemon?.name || null;
+
+    return null;
   }
 
-  private async loadNextPokemon(id: number): Promise<string | null> {
-    const pokemonFetched = await getPokemon(id);
-    if (pokemonFetched) {
-      return pokemonFetched.name;
-    } else {
-      const pokemonFetched = await getPokemon(1);
-      if (pokemonFetched) {
-        return pokemonFetched.name;
-      }
+  private async loadNextPokemon(): Promise<string | null> {
+    if (!this.pokemonListOnStore) {
+      this.fetchStore();
     }
 
-    return this.pokemon?.name || null;
+    if (this.pokemonListOnStore && this.pokemonName) {
+      const index = this.pokemonListOnStore.results.findIndex(
+        (r) => r.name === this.pokemonName
+      );
+      return index >= this.pokemonListOnStore.results.length - 1
+        ? this.pokemonListOnStore.results[0].name
+        : this.pokemonListOnStore.results[index + 1].name;
+    }
+
+    return null;
   }
 
   private async reload(newPokemon: string) {

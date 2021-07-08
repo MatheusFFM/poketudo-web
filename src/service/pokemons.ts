@@ -25,9 +25,10 @@ export const getPokemons = async (
   limit = 20
 ): Promise<PokemonsList | null> => {
   try {
-    return await api
+    const retorno = await api
       .get(`/pokemon/?offset=${offset}&limit=${limit}`)
       .then((res) => res.data);
+    return retorno;
   } catch (err) {
     console.error(err);
     return null;
