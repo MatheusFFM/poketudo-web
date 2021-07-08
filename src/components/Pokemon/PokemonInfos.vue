@@ -33,22 +33,15 @@
         <v-col
           cols="12"
           sm="6"
-          class="
-            d-flex
-            flex-column
-            align-center
-            px-2 px-md-10
-            py-7
-            fill
-          "
+          class="d-flex flex-column align-center px-2 px-md-10 py-7"
           :style="{
             'background-color':
               getTypeColor(pokemon.types[0].type.name) + '!important',
           }"
         >
-          <div class="pokemon-name-container">
+          <div class="pokemon-name-container pl-5">
             <h1 class="pokemon-name">{{ capitalizeName(pokemon.name) }}</h1>
-            <h2 class="pokemon-id">
+            <h2 class="pokemon-id mb-4">
               #{{ formatPokedexNumber(specie.pokedex_numbers[0].entry_number) }}
             </h2>
           </div>
@@ -62,7 +55,7 @@
         <v-col
           cols="12"
           sm="6"
-          class="fill"
+          class="no-line-height"
           :style="{
             'background-color':
               getTypeColor(pokemon.types[0].type.name) + '!important',
@@ -186,18 +179,21 @@ export default class PokemonInfos extends Vue {
   font-size: 60px !important;
   width: 80px;
   height: 80px;
-  bottom: 10px;
+  bottom: 30px;
 }
 .icon-container:hover {
   transition: 0.6s;
   cursor: pointer;
   transform: scale(1.1);
 }
+.no-line-height {
+  line-height: 0vh;
+}
 .right-icon {
-  right: 10px;
+  right: 20px;
 }
 .left-icon {
-  left: 10px;
+  left: 20px;
 }
 @media only screen and (max-width: 900px) {
   .image-container {
@@ -214,8 +210,13 @@ export default class PokemonInfos extends Vue {
   }
 }
 @media only screen and (max-width: 600px) {
+  .fill {
+    height: calc(200vh - 56px);
+    max-height: 1000px;
+  }
+
   .image-container {
-    max-height: 250px;
+    max-height: 310px;
     min-width: 250px;
   }
   .pokemon-name {
