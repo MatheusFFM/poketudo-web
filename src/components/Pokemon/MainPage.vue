@@ -1,69 +1,64 @@
 <template>
-  <div>
-    <router-link :to="`/pokemon/${last}`">
-      <v-icon
-        x-large
-        color="white"
-        class="left-icon icon-container"
-        @click="$emit('update', last)"
-        :style="{
-          'background-color':
-            getTypeColor(pokemon.types[0].type.name) + '!important',
-        }"
-      >
-        mdi-arrow-left-drop-circle-outline
-      </v-icon>
-    </router-link>
-    <router-link :to="`/pokemon/${next}`">
-      <v-icon
-        x-large
-        color="white"
-        class="right-icon icon-container"
-        @click="$emit('update', next)"
-        :style="{
-          'background-color':
-            getTypeColor(pokemon.types[0].type.name) + '!important',
-        }"
-      >
-        mdi-arrow-right-drop-circle-outline
-      </v-icon></router-link
+  <v-row class="fill">
+    <v-col
+      cols="12"
+      sm="6"
+      class="d-flex flex-column align-center px-2 px-md-10 py-7"
+      :style="{
+        'background-color':
+          getTypeColor(pokemon.types[0].type.name) + '!important',
+      }"
     >
-    <v-container fluid>
-      <MainPage :pokemon="pokemon" :specie="specie" />
-
-      <PokemonDetails
-        v-if="pokemon && specie"
-        :pokemon="pokemon"
-        :specie="specie"
+      <div class="pokemon-name-container pl-5">
+        <h1 class="pokemon-name">{{ capitalizeName(pokemon.name) }}</h1>
+        <v-chip
+          class="ma-2 mt-1 pokemon-id"
+          :text-color="getTypeColor(pokemon.types[0].type.name)"
+          color="white"
+        >
+          <h2>
+            #{{ formatPokedexNumber(specie.pokedex_numbers[0].entry_number) }}
+          </h2>
+        </v-chip>
+      </div>
+      <v-img
+        class="image-container"
+        transition="fade-transition"
+        contain
+        :alt="pokemon.name"
+        :lazy-src="getPokemonImg(pokemon.sprites.other)"
+        :src="getPokemonImg(pokemon.sprites.other)"
+        @load="onImgLoad"
       />
-    </v-container>
-  </div>
+      <v-progress-circular indeterminate color="white" v-if="!imageLoaded" />
+    </v-col>
+    <v-col
+      cols="12"
+      sm="6"
+      class="no-line-height"
+      :style="{
+        'background-color':
+          getTypeColor(pokemon.types[0].type.name) + '!important',
+      }"
+    >
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
-import MainPage from "./MainPage.vue";
 import { Other } from "@/models/Pokemons/Other";
 import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
 import { colors } from "@/models/Type/colors";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import PokemonDetails from "@/components/Pokemon/PokemonDetails.vue";
 
-@Component({
-  components: {
-    PokemonDetails,
-    MainPage,
-  },
-})
-export default class PokemonInfos extends Vue {
+@Component
+export default class MainPage extends Vue {
   @Prop()
   public pokemon!: Pokemon;
   @Prop()
   public specie!: Specie;
-  @Prop()
-  public next!: string;
-  @Prop()
-  public last!: string;
+
   public imageLoaded = false;
 
   private onImgLoad() {
@@ -130,36 +125,47 @@ export default class PokemonInfos extends Vue {
   width: 100vw;
   height: calc(100vh - 56px);
 }
-.icon-container {
-  position: fixed;
-  border-radius: 100% !important;
-  font-size: 60px !important;
-  width: 80px;
-  height: 80px;
-  bottom: 30px;
+.pokemon-name-container {
+  width: 100%;
 }
-.icon-container:hover {
-  transition: 0.6s;
-  cursor: pointer;
-  transform: scale(1.1);
+.pokemon-name {
+  color: white;
+  font-size: 5rem;
+  z-index: 5;
 }
-.right-icon {
-  right: 20px;
+.pokemon-id {
+  font-weight: 900;
 }
-.left-icon {
-  left: 20px;
+.image-container {
+  max-height: 350px;
+  min-width: 350px;
+}
+.image {
+  background-color: yellow !important;
+}
+.no-line-height {
+  line-height: 0vh;
 }
 @media only screen and (max-width: 900px) {
-  .icon-container {
-    font-size: 40px !important;
-    width: 50px;
-    height: 50px;
+  .image-container {
+    max-height: 270px;
+    min-width: 270px;
+  }
+  .pokemon-name {
+    font-size: 3.3rem;
   }
 }
 @media only screen and (max-width: 600px) {
   .fill {
     height: calc(200vh - 56px);
     max-height: 1000px;
+  }
+  .image-container {
+    max-height: 310px;
+    min-width: 250px;
+  }
+  .pokemon-name {
+    font-size: 3rem;
   }
 }
 </style>
