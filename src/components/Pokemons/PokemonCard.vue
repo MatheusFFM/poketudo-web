@@ -21,9 +21,23 @@
         contain
         height="200px"
         max-height="200px"
+        transition="fade-transition"
+        @load="onImgLoad"
+        :alt="pokemon.name"
         :src="getPokemonImg(pokemon.sprites.other)"
         :lazy-src="getPokemonImg(pokemon.sprites.other)"
-      ></v-img>
+      />
+      <v-progress-circular
+        indeterminate
+        :color="
+          getTypeColor(
+            pokemon.types.length > 1
+              ? pokemon.types[1].type.name
+              : pokemon.types[0].type.name
+          )
+        "
+        v-show="!imageLoaded"
+      />
       <v-card-title class="text-h6 mt-1 pb-2 card-title"
         ><span>{{ capitalizeName(pokemon.name) }}</span>
       </v-card-title>
@@ -63,9 +77,14 @@ export default class PokemonCard extends Vue {
   public pokemonResult!: Result;
   public pokemon: Pokemon | null = null;
   public specie: Specie | null = null;
+  public imageLoaded = false;
 
   private mounted() {
     this.loadPokemon();
+  }
+
+  private onImgLoad() {
+    this.imageLoaded = true;
   }
 
   private capitalizeName(name: string): string {

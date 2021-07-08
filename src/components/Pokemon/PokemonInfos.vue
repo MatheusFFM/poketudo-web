@@ -46,10 +46,12 @@
             </h2>
           </div>
           <v-img
+            class="image-container"
+            transition="fade-transition"
+            contain
+            :alt="pokemon.name"
             :lazy-src="getPokemonImg(pokemon.sprites.other)"
             :src="getPokemonImg(pokemon.sprites.other)"
-            class="image-container"
-            contain
           />
         </v-col>
         <v-col
