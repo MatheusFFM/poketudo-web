@@ -46,10 +46,18 @@
             </h2>
           </div>
           <v-img
+            class="image-container"
+            transition="fade-transition"
+            contain
+            :alt="pokemon.name"
             :lazy-src="getPokemonImg(pokemon.sprites.other)"
             :src="getPokemonImg(pokemon.sprites.other)"
-            class="image-container"
-            contain
+            @load="onImgLoad"
+          />
+          <v-progress-circular
+            indeterminate
+            color="white"
+            v-if="!imageLoaded"
           />
         </v-col>
         <v-col
@@ -94,6 +102,11 @@ export default class PokemonInfos extends Vue {
   public next!: string;
   @Prop()
   public last!: string;
+  public imageLoaded = false;
+
+  private onImgLoad() {
+    this.imageLoaded = true;
+  }
 
   private getTypeColor(name: string): string {
     return (colors as never)[name];
