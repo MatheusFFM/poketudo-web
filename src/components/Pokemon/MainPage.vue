@@ -41,6 +41,20 @@
           getTypeColor(pokemon.types[0].type.name) + '!important',
       }"
     >
+      <v-chip
+        color="white"
+        large
+        :text-color="getTypeColor(pokemon.types[0].type.name)"
+      >
+        <v-chip
+          class="ma-2 mt-1"
+          text-color="white"
+          :key="type.slot"
+          :color="getTypeColor(type.type.name)"
+          v-for="type in pokemon.types"
+          >{{ capitalizeType(type.type.name) }}
+        </v-chip>
+      </v-chip>
     </v-col>
   </v-row>
 </template>
@@ -96,6 +110,10 @@ export default class MainPage extends Vue {
       spplitedName[index] = n;
     });
     return spplitedName.join(" ");
+  }
+
+  private capitalizeType(name: string): string {
+    return name.charAt(0).toUpperCase() + name.slice(1);
   }
 
   private getPokemonImg(other: Other): string {
