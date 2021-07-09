@@ -64,7 +64,7 @@
           >{{ capitalizeType(type.type.name) }}
         </v-chip>
       </v-chip>
-      <v-card elevation="3" shaped class="content-card mt-12 px-4 pt-3">
+      <v-card elevation="3" shaped class="content-card mt-12 mx-1 px-4 pt-3">
         <v-card-title class="text-h4 font-weight-bold">
           {{ capitalizeName(pokemon.name, true) }}
         </v-card-title>
@@ -73,22 +73,30 @@
         </v-card-subtitle>
         <v-card-text class="text-h6">
           <v-row>
-            <v-col cols="6">
+            <v-col cols="12" sm="6">
               <span
                 class="font-weight-bold"
                 :style="{
-                  color: getTypeColor(pokemon.types[0].type.name),
+                  color: getTypeColor(
+                    pokemon.types.length > 1
+                      ? pokemon.types[1].type.name
+                      : pokemon.types[0].type.name
+                  ),
                 }"
               >
                 Height:
               </span>
               {{ convertHeight(pokemon.height) }} m
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" sm="6">
               <span
                 class="font-weight-bold"
                 :style="{
-                  color: getTypeColor(pokemon.types[0].type.name),
+                  color: getTypeColor(
+                    pokemon.types.length > 1
+                      ? pokemon.types[1].type.name
+                      : pokemon.types[0].type.name
+                  ),
                 }"
               >
                 Weight:
@@ -101,7 +109,11 @@
               <span
                 class="font-weight-bold"
                 :style="{
-                  color: getTypeColor(pokemon.types[0].type.name),
+                  color: getTypeColor(
+                    pokemon.types.length > 1
+                      ? pokemon.types[1].type.name
+                      : pokemon.types[0].type.name
+                  ),
                 }"
                 >Genus:</span
               >
@@ -113,7 +125,11 @@
               <span
                 class="font-weight-bold"
                 :style="{
-                  color: getTypeColor(pokemon.types[0].type.name),
+                  color: getTypeColor(
+                    pokemon.types.length > 1
+                      ? pokemon.types[1].type.name
+                      : pokemon.types[0].type.name
+                  ),
                 }"
                 >Generation:</span
               >
@@ -153,7 +169,13 @@
                 small
                 class="mx-2"
                 text-color="white"
-                :color="getTypeColor(pokemon.types[0].type.name)"
+                :color="
+                  getTypeColor(
+                    pokemon.types.length > 1
+                      ? pokemon.types[1].type.name
+                      : pokemon.types[0].type.name
+                  )
+                "
                 v-if="pokemon.is_default"
               >
                 Default
@@ -163,7 +185,13 @@
                 class="mx-2"
                 text-color="white"
                 outlined
-                :color="getTypeColor(pokemon.types[0].type.name)"
+                :color="
+                  getTypeColor(
+                    pokemon.types.length > 1
+                      ? pokemon.types[1].type.name
+                      : pokemon.types[0].type.name
+                  )
+                "
                 v-else
               >
                 Alternative
