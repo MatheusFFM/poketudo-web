@@ -131,6 +131,7 @@ export default class PokemonInfos extends Vue {
   height: calc(100vh - 56px);
 }
 .icon-container {
+  z-index: 5;
   position: fixed;
   border-radius: 100% !important;
   font-size: 60px !important;
