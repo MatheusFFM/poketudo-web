@@ -39,8 +39,8 @@
         no-line-height
         d-flex
         flex-column
-        justify-start
-        align-start
+        justify-center
+        align-center
         px-2 px-md-10
         py-7
       "
@@ -50,7 +50,7 @@
       }"
     >
       <v-chip
-        color="white"
+        color="white align-self-end mr-7"
         class="mt-6"
         large
         :text-color="getTypeColor(pokemon.types[0].type.name)"
