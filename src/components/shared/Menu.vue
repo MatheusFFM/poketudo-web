@@ -6,6 +6,9 @@
         :key="link.name"
         :to="getPath(link.path)"
       >
+        <v-icon color="tertiary" class="mr-2">
+          {{ link.props.default.icon }}
+        </v-icon>
         {{ link.name }}
       </v-tab>
     </v-tabs>

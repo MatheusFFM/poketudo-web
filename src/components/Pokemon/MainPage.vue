@@ -136,9 +136,8 @@
               {{ getGeneration() }}
             </v-col>
           </v-row>
-          <v-row class="d-flex flex-row justify-center align-center mt-10">
+          <v-row class="d-flex flex-row justify-center align-center my-6">
             <v-chip
-              class="mx-2"
               text-color="white"
               :color="colorsCaracteristics.legendary"
               v-if="specie.is_legendary"
@@ -146,7 +145,6 @@
               Legendary
             </v-chip>
             <v-chip
-              class="mx-2"
               text-color="white"
               :color="colorsCaracteristics.mythical"
               v-if="specie.is_mythical"
@@ -154,7 +152,6 @@
               Mythical
             </v-chip>
             <v-chip
-              class="mx-2"
               text-color="white"
               :color="colorsCaracteristics.baby"
               v-if="specie.is_baby"
@@ -163,7 +160,6 @@
             </v-chip>
             <v-chip
               small
-              class="mx-2"
               text-color="white"
               :color="
                 getTypeColor(
@@ -178,7 +174,6 @@
             </v-chip>
             <v-chip
               small
-              class="mx-2"
               outlined
               :color="
                 getTypeColor(
