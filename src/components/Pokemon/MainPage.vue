@@ -35,7 +35,15 @@
     <v-col
       cols="12"
       sm="6"
-      class="no-line-height"
+      class="
+        no-line-height
+        d-flex
+        flex-column
+        justify-start
+        align-start
+        px-2 px-md-10
+        py-7
+      "
       :style="{
         'background-color':
           getTypeColor(pokemon.types[0].type.name) + '!important',
