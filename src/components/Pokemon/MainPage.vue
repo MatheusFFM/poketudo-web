@@ -136,66 +136,61 @@
               {{ getGeneration() }}
             </v-col>
           </v-row>
-          <v-row class="d-flex flex-row justify-center align-center">
-            <v-col cols="3" v-if="specie.is_legendary">
-              <v-chip
-                class="mx-2"
-                text-color="white"
-                :color="colorsCaracteristics.legendary"
-              >
-                Legendary
-              </v-chip>
-            </v-col>
-            <v-col cols="3" v-if="specie.is_mythical">
-              <v-chip
-                class="mx-2"
-                text-color="white"
-                :color="colorsCaracteristics.mythical"
-              >
-                Mythical
-              </v-chip>
-            </v-col>
-            <v-col cols="3" v-if="specie.is_baby">
-              <v-chip
-                class="mx-2"
-                text-color="white"
-                :color="colorsCaracteristics.baby"
-              >
-                Baby
-              </v-chip>
-            </v-col>
-            <v-col cols="3">
-              <v-chip
-                small
-                class="mx-2"
-                text-color="white"
-                :color="
-                  getTypeColor(
-                    pokemon.types.length > 1
-                      ? pokemon.types[1].type.name
-                      : pokemon.types[0].type.name
-                  )
-                "
-                v-if="pokemon.is_default"
-              >
-                Default
-              </v-chip>
-              <v-chip
-                small
-                class="mx-2"
-                outlined
-                :color="
-                  getTypeColor(
-                    pokemon.types.length > 1
-                      ? pokemon.types[1].type.name
-                      : pokemon.types[0].type.name
-                  )
-                "
-                v-else
-              >
-                Alternative
-              </v-chip>
-            </v-col>
+          <v-row class="d-flex flex-row justify-center align-center mt-10">
+            <v-chip
+              class="mx-2"
+              text-color="white"
+              :color="colorsCaracteristics.legendary"
+              v-if="specie.is_legendary"
+            >
+              Legendary
+            </v-chip>
+            <v-chip
+              class="mx-2"
+              text-color="white"
+              :color="colorsCaracteristics.mythical"
+              v-if="specie.is_mythical"
+            >
+              Mythical
+            </v-chip>
+            <v-chip
+              class="mx-2"
+              text-color="white"
+              :color="colorsCaracteristics.baby"
+              v-if="specie.is_baby"
+            >
+              Baby
+            </v-chip>
+            <v-chip
+              small
+              class="mx-2"
+              text-color="white"
+              :color="
+                getTypeColor(
+                  pokemon.types.length > 1
+                    ? pokemon.types[1].type.name
+                    : pokemon.types[0].type.name
+                )
+              "
+              v-if="pokemon.is_default"
+            >
+              Default
+            </v-chip>
+            <v-chip
+              small
+              class="mx-2"
+              outlined
+              :color="
+                getTypeColor(
+                  pokemon.types.length > 1
+                    ? pokemon.types[1].type.name
+                    : pokemon.types[0].type.name
+                )
+              "
+              v-else
+            >
+              Alternative
+            </v-chip>
           </v-row>
         </v-card-text>
       </v-card>
@@ -350,7 +345,7 @@ export default class MainPage extends Vue {
 }
 .content-card {
   width: 40vw;
-  min-height: 420px;
+  min-height: 410px;
 }
 @media only screen and (max-width: 900px) {
   .image-container {
