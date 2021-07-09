@@ -11,6 +11,7 @@ const routes: Array<RouteConfig> = [
     component: Home,
     props: {
       menu: true,
+      icon: "mdi-home-circle",
     },
   },
   {
@@ -18,6 +19,7 @@ const routes: Array<RouteConfig> = [
     name: "pokemons",
     props: {
       menu: true,
+      icon: "mdi-pokeball",
     },
     component: () => import("../pages/Pokemons.vue"),
   },
@@ -29,6 +31,16 @@ const routes: Array<RouteConfig> = [
     },
 
     component: () => import("../pages/Pokemon.vue"),
+  },
+  {
+    path: "/settings",
+    name: "settings",
+    props: {
+      menu: true,
+      icon: "mdi-cog-outline",
+    },
+
+    component: () => import("../pages/Settings.vue"),
   },
 ];
 
