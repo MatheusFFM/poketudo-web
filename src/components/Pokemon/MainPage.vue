@@ -183,7 +183,6 @@
               <v-chip
                 small
                 class="mx-2"
-                text-color="white"
                 outlined
                 :color="
                   getTypeColor(
