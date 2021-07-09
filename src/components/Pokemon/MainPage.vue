@@ -22,7 +22,7 @@
         </v-chip>
       </div>
       <v-img
-        class="image-container"
+        class="image-container mt-6"
         transition="fade-transition"
         contain
         :alt="pokemon.name"
@@ -51,11 +51,12 @@
     >
       <v-chip
         color="white"
+        class="mt-6"
         large
         :text-color="getTypeColor(pokemon.types[0].type.name)"
       >
         <v-chip
-          class="ma-2 mt-1"
+          class="mx-2"
           text-color="white"
           :key="type.slot"
           :color="getTypeColor(type.type.name)"
@@ -63,16 +64,125 @@
           >{{ capitalizeType(type.type.name) }}
         </v-chip>
       </v-chip>
+      <v-card elevation="3" shaped class="content-card mt-12 px-4 pt-3">
+        <v-card-title class="text-h4 font-weight-bold">
+          {{ capitalizeName(pokemon.name, true) }}
+        </v-card-title>
+        <v-card-subtitle class="text-h8 my-1">
+          {{ getFlavorText() }}
+        </v-card-subtitle>
+        <v-card-text class="text-h6">
+          <v-row>
+            <v-col cols="6">
+              <span
+                class="font-weight-bold"
+                :style="{
+                  color: getTypeColor(pokemon.types[0].type.name),
+                }"
+              >
+                Height:
+              </span>
+              {{ convertHeight(pokemon.height) }} m
+            </v-col>
+            <v-col cols="6">
+              <span
+                class="font-weight-bold"
+                :style="{
+                  color: getTypeColor(pokemon.types[0].type.name),
+                }"
+              >
+                Weight:
+              </span>
+              {{ convertWeight(pokemon.weight) }} Kg
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <span
+                class="font-weight-bold"
+                :style="{
+                  color: getTypeColor(pokemon.types[0].type.name),
+                }"
+                >Genus:</span
+              >
+              {{ getGenus() }}
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <span
+                class="font-weight-bold"
+                :style="{
+                  color: getTypeColor(pokemon.types[0].type.name),
+                }"
+                >Generation:</span
+              >
+              {{ getGeneration() }}
+            </v-col>
+          </v-row>
+          <v-row class="d-flex flex-row justify-center align-center">
+            <v-col cols="3" v-if="specie.is_legendary">
+              <v-chip
+                class="mx-2"
+                text-color="white"
+                :color="colorsCaracteristics.legendary"
+              >
+                Legendary
+              </v-chip>
+            </v-col>
+            <v-col cols="3" v-if="specie.is_mythical">
+              <v-chip
+                class="mx-2"
+                text-color="white"
+                :color="colorsCaracteristics.mythical"
+              >
+                Mythical
+              </v-chip>
+            </v-col>
+            <v-col cols="3" v-if="specie.is_baby">
+              <v-chip
+                class="mx-2"
+                text-color="white"
+                :color="colorsCaracteristics.baby"
+              >
+                Baby
+              </v-chip>
+            </v-col>
+            <v-col cols="3">
+              <v-chip
+                small
+                class="mx-2"
+                text-color="white"
+                :color="getTypeColor(pokemon.types[0].type.name)"
+                v-if="pokemon.is_default"
+              >
+                Default
+              </v-chip>
+              <v-chip
+                small
+                class="mx-2"
+                text-color="white"
+                outlined
+                :color="getTypeColor(pokemon.types[0].type.name)"
+                v-else
+              >
+                Alternative
+              </v-chip>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import { Other } from "@/models/Pokemons/Other";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
 import { colors } from "@/models/Type/colors";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { colorsCaracteristics } from "@/models/Pokemons/CaracteristicsEnum";
 
 @Component
 export default class MainPage extends Vue {
@@ -80,6 +190,8 @@ export default class MainPage extends Vue {
   public pokemon!: Pokemon;
   @Prop()
   public specie!: Specie;
+
+  public colorsCaracteristics = colorsCaracteristics;
 
   public imageLoaded = false;
 
@@ -99,11 +211,13 @@ export default class MainPage extends Vue {
     return result;
   }
 
-  private capitalizeName(name: string): string {
-    if (this.specie?.names) {
-      for (let n of this.specie.names) {
-        if (n.language.name === "en") {
-          return n.name;
+  private capitalizeName(name: string, uniqueName = false): string {
+    if (!uniqueName) {
+      if (this.specie?.names) {
+        for (let n of this.specie.names) {
+          if (n.language.name === "en") {
+            return n.name;
+          }
         }
       }
     }
@@ -143,6 +257,41 @@ export default class MainPage extends Vue {
     const url = partialUrl.substring(0, indexSufix);
     return url;
   }
+
+  private getFlavorText(): string {
+    if (this.specie.flavor_text_entries.length > 0) {
+      return (
+        this.specie.flavor_text_entries
+          .find((t) => t.language.name === "en")
+          ?.flavor_text.replaceAll("POKéMON", "pokémon")
+          .replaceAll("\f", " ") || ""
+      );
+    }
+    return "";
+  }
+
+  private getGenus(): string {
+    return (
+      this.specie.genera.find((g) => g.language.name === "en")?.genus ||
+      "Unknown"
+    );
+  }
+
+  private getGeneration(): string {
+    const generation = this.specie.generation.name;
+    return (
+      generation.charAt(0).toUpperCase() +
+        generation.substring(1, generation.length) || ""
+    );
+  }
+
+  private convertHeight(height: number): number {
+    return Math.floor(height * 0.1 * 100) / 100;
+  }
+
+  private convertWeight(weight: number): number {
+    return Math.floor(weight * 0.1 * 100) / 100;
+  }
 }
 </script>
 
@@ -172,6 +321,10 @@ export default class MainPage extends Vue {
 .no-line-height {
   line-height: 0vh;
 }
+.content-card {
+  width: 40vw;
+  min-height: 420px;
+}
 @media only screen and (max-width: 900px) {
   .image-container {
     max-height: 270px;
@@ -192,6 +345,9 @@ export default class MainPage extends Vue {
   }
   .pokemon-name {
     font-size: 3rem;
+  }
+  .content-card {
+    width: 90vw;
   }
 }
 </style>

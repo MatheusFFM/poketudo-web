@@ -190,11 +190,11 @@ export default class Pokemons extends Vue {
 
     if (Math.abs(xDiff) > Math.abs(yDiff)) {
       /*most significant*/
-      if (xDiff > 14) {
+      if (xDiff > 10) {
         if (this.next) {
           this.goTo(this.next);
         }
-      } else if (xDiff < -14) {
+      } else if (xDiff < -10) {
         if (this.previus) {
           this.goTo(this.previus);
         }
