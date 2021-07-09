@@ -84,8 +84,6 @@
               </span>
               {{ convertHeight(pokemon.height) }} m
             </v-col>
-          </v-row>
-          <v-row>
             <v-col cols="6">
               <span
                 class="font-weight-bold"
@@ -325,6 +323,7 @@ export default class MainPage extends Vue {
 }
 .content-card {
   width: 40vw;
+  min-height: 420px;
 }
 @media only screen and (max-width: 900px) {
   .image-container {
