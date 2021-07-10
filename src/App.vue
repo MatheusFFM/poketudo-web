@@ -15,7 +15,14 @@ import Menu from "./components/shared/Menu.vue";
 @Component({
   components: { Menu },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  private mounted() {
+    const locale = localStorage.getItem("$locale");
+    if (locale) {
+      this.$vuetify.lang.current = locale;
+    }
+  }
+}
 </script>
 
 <style scoped>
