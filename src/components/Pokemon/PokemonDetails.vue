@@ -166,7 +166,6 @@
         cols="12"
         md="6"
         class="
-          fill
           px-10
           mt-16 mt-sm-0
           pt-14 pt-md-7
@@ -177,14 +176,61 @@
           justify-center
         "
       >
-        <v-row>
+        <v-row class="card-abilities" :class="{ hide: abilities.length === 0 }">
           <v-col
             cols="12"
-            class="d-flex flex-column align-center justify-center"
+            class="pr-14 d-flex flex-column justify-center align-end"
+            v-if="$vuetify.breakpoint.smAndUp"
           >
             <span class="display-3 font-weight-bold">{{
               capitalizeName(pokemon.name)
             }}</span>
+          </v-col>
+          <v-col cols="12" class="d-flex flex-column align-center">
+            <v-card min-height="400px" elevation="3" shaped class="mt-6">
+              <v-card-title
+                class="d-flex flex-column align-center"
+                :style="{
+                  'background-color': secundaryColor,
+                  color: 'white',
+                }"
+              >
+                <span class="font-weight-bold"> Habilidades </span>
+              </v-card-title>
+              <v-tabs centered :background-color="secundaryColor" v-model="tab">
+                <v-tab
+                  class="d-flex flex-column align-center"
+                  v-for="ability in abilities"
+                  :key="ability.id"
+                >
+                  {{ getName(ability) }}
+                </v-tab>
+              </v-tabs>
+
+              <v-tabs-items v-model="tab">
+                <v-tab-item v-for="ability in abilities" :key="ability.id">
+                  <v-card flat>
+                    <v-card-text>
+                      <v-row>
+                        <v-col cols="12"
+                          >Slot # {{ getAbilitySlot(ability.name) }}</v-col
+                        >
+                        <v-col cols="12">Name: {{ getName(ability) }}</v-col>
+                        <v-col cols="12"
+                          >Generation: {{ getGeneration(ability) }}</v-col
+                        >
+                        <v-col cols="12"
+                          >Flavor: {{ getFlavorText(ability) }}</v-col
+                        >
+                        <v-col cols="12" v-if="getAbilityHidden(ability.name)"
+                          >Hidden</v-col
+                        >
+                      </v-row>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-card>
           </v-col>
         </v-row>
       </v-col>
@@ -193,10 +239,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
+import { Ability } from "@/models/Ability/Ability";
+import { getAbilityByName } from "@/service/abilities";
 import PokemonFormatterHelper from "@/utils/PokemonFormatterHelper";
+import AbilityFormatterHelper from "@/utils/AbilityFormatterHelper";
 
 @Component
 export default class PokemonDetails extends Vue {
@@ -205,7 +254,13 @@ export default class PokemonDetails extends Vue {
   @Prop()
   public specie!: Specie;
 
-  public pokemonFormatterHelper = new PokemonFormatterHelper();
+  private tab = null;
+
+  private abilities: Ability[] = [];
+
+  private pokemonFormatterHelper = new PokemonFormatterHelper();
+
+  private abilityFormatterHelper = new AbilityFormatterHelper();
 
   public get mainColor(): string {
     return this.getTypeColor(this.pokemon.types[0].type.name);
@@ -273,12 +328,58 @@ export default class PokemonDetails extends Vue {
     return this.pokemonFormatterHelper.getTypeColor(name);
   }
 
+  private async mounted(): Promise<void> {
+    this.getAbilities();
+  }
+
+  private getGeneration(ability: Ability): string {
+    return this.abilityFormatterHelper.getGeneration(ability);
+  }
+
+  private getName(ability: Ability): string {
+    return this.abilityFormatterHelper.getName(
+      ability,
+      this.$vuetify.lang.current
+    );
+  }
+
+  private getFlavorText(ability: Ability): string {
+    return this.abilityFormatterHelper.getFlavorText(
+      ability,
+      this.$vuetify.lang.current
+    );
+  }
+
+  @Watch("pokemon")
+  private async getAbilities(): Promise<void> {
+    this.abilities = [];
+    this.pokemon.abilities.forEach(async (a) => {
+      const response = await getAbilityByName(a.ability.name);
+      if (response) {
+        this.abilities.push(response);
+      }
+    });
+  }
+
   private capitalizeName(name: string, uniqueName = false): string {
     return this.pokemonFormatterHelper.capitalizeName(
       this.specie,
       name,
       this.$vuetify.lang.current,
       uniqueName
+    );
+  }
+
+  private getAbilitySlot(name: string): number {
+    return (
+      this.pokemon.abilities.find((a) => a.ability.name === name)?.slot || 0
+    );
+  }
+
+  private getAbilityHidden(name: string): boolean {
+    return (
+      this.pokemon.abilities.find((a) => a.ability.name === name)?.is_hidden ||
+      false
     );
   }
 }
@@ -288,6 +389,51 @@ export default class PokemonDetails extends Vue {
 .fill {
   width: 100vw;
   height: calc(100vh - 52px);
+}
+
+.hide {
+  display: none !important;
+}
+
+.card-abilities {
+  margin-top: 25px;
+  font-size: 21px;
+  text-align: center;
+
+  -webkit-animation: fadein 1.5s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1.5s; /* Firefox < 16 */
+  -ms-animation: fadein 1.5s; /* Internet Explorer */
+  -o-animation: fadein 1.5s; /* Opera < 12.1 */
+  animation: fadein 1.5s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media only screen and (max-width: 781px) {
