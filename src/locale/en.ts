@@ -18,6 +18,12 @@ export default {
     Alternative: "Alternative",
   },
 
+  SettingsPage: {
+    Incomplete: "Incomplete",
+    Language: "Language",
+    LanguageTip: "Select the language of this application:",
+  },
+
   Types: {
     Normal: "Normal",
     Fire: "Fire",
