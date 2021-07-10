@@ -28,7 +28,6 @@ import { Specie } from "@/models/Specie/Specie";
 import { getPokemonsByName } from "@/service/pokemons";
 import { getSpecieByName } from "@/service/species";
 import router from "@/router";
-import goTo from "vuetify/lib/services/goto";
 
 const pokemonListNamespace = namespace(StoreNamespaces.POKEMON_LIST);
 

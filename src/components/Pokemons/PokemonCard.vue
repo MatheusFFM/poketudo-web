@@ -23,8 +23,8 @@
         max-height="200px"
         transition="fade-transition"
         :alt="pokemon.name"
-        :src="getPokemonImg(pokemon.sprites.other)"
-        :lazy-src="getPokemonImg(pokemon.sprites.other)"
+        :src="getPokemonImg()"
+        :lazy-src="getPokemonImg()"
         @load="onImgLoad"
       />
       <v-progress-circular
@@ -48,7 +48,10 @@
           :key="type.slot"
           :color="getTypeColor(type.type.name)"
           v-for="type in pokemon.types"
-          >{{ capitalizeType(type.type.name) }}
+        >
+          {{
+            $vuetify.lang.t(`$vuetify.Types.${capitalizeType(type.type.name)}`)
+          }}
         </v-chip>
       </v-card-text>
     </v-card>
@@ -63,9 +66,8 @@ import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Result } from "@/models/PokemonsList/Result";
 import { getPokemonsByName } from "@/service/pokemons";
 import { getSpecieByName } from "@/service/species";
-import { Other } from "@/models/Pokemons/Other";
-import { colors } from "@/models/Type/colors";
 import { Specie } from "@/models/Specie/Specie";
+import PokemonFormatterHelper from "@/utils/PokemonFormatterHelper";
 
 @Component({
   components: {
@@ -78,6 +80,7 @@ export default class PokemonCard extends Vue {
   public pokemon: Pokemon | null = null;
   public specie: Specie | null = null;
   public imageLoaded = false;
+  public pokemonFormatterHelper = new PokemonFormatterHelper();
 
   private mounted() {
     this.loadPokemon();
@@ -88,24 +91,14 @@ export default class PokemonCard extends Vue {
   }
 
   private capitalizeName(name: string): string {
-    if (this.specie?.names) {
-      for (let n of this.specie.names) {
-        if (n.language.name === "en") {
-          return n.name;
-        }
-      }
+    if (this.specie) {
+      return this.pokemonFormatterHelper.capitalizeName(
+        this.specie,
+        name,
+        this.$vuetify.lang.current
+      );
     }
-    const spplitedName = name.split("-");
-    const allUpperCase = ["GMAX"];
-    spplitedName.map((n, index) => {
-      if (allUpperCase.includes(n.toUpperCase())) {
-        n = n.toUpperCase();
-      } else {
-        n = n.charAt(0).toUpperCase() + n.slice(1);
-      }
-      spplitedName[index] = n;
-    });
-    return spplitedName.join(" ");
+    return "";
   }
 
   public get loading(): boolean {
@@ -113,39 +106,22 @@ export default class PokemonCard extends Vue {
   }
 
   private getTypeColor(name: string): string {
-    return (colors as never)[name];
+    return this.pokemonFormatterHelper.getTypeColor(name);
   }
 
   private capitalizeType(name: string): string {
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    return this.pokemonFormatterHelper.capitalizeType(name);
   }
 
   private formatPokedexNumber(pokedexNumber: number): string {
-    let result = pokedexNumber.toString();
-    while (result.length < 3) {
-      result = "0".concat(result);
-    }
-    return result;
+    return this.pokemonFormatterHelper.formatPokedexNumber(pokedexNumber);
   }
 
-  private getPokemonImg(other: Other): string {
-    if (other.dream_world.front_default) {
-      return other.dream_world.front_default;
+  private getPokemonImg(): string {
+    if (this.pokemon) {
+      return this.pokemonFormatterHelper.getImg(this.pokemon);
     }
-    const officialArtwork = "front_default";
-    const jumpChars = 3;
-    const otherString = JSON.stringify(other);
-    const index = otherString.lastIndexOf(officialArtwork);
-    const partialUrl = otherString.substring(
-      index + jumpChars + officialArtwork.length,
-      otherString.length
-    );
-    const indexSufix = partialUrl.indexOf('"');
-    if (indexSufix === -1) {
-      return require("@/assets/NoPokemon.png");
-    }
-    const url = partialUrl.substring(0, indexSufix);
-    return url;
+    return "";
   }
 
   private async loadPokemon() {

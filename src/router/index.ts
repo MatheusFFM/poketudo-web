@@ -16,7 +16,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/pokemons",
-    name: "pokemons",
+    name: "Pokemons",
     props: {
       menu: true,
       icon: "mdi-pokeball",
@@ -34,7 +34,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/settings",
-    name: "settings",
+    name: "Settings",
     props: {
       menu: true,
       icon: "mdi-cog-outline",

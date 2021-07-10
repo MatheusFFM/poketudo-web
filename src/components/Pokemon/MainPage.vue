@@ -5,15 +5,14 @@
       sm="6"
       class="d-flex flex-column align-center px-2 px-md-10 py-7"
       :style="{
-        'background-color':
-          getTypeColor(pokemon.types[0].type.name) + '!important',
+        'background-color': mainColor + '!important',
       }"
     >
       <div class="pokemon-name-container pl-5">
         <h1 class="pokemon-name">{{ capitalizeName(pokemon.name) }}</h1>
         <v-chip
           class="ma-2 mt-1 pokemon-id"
-          :text-color="getTypeColor(pokemon.types[0].type.name)"
+          :text-color="mainColor"
           color="white"
         >
           <h2>
@@ -26,8 +25,8 @@
         transition="fade-transition"
         contain
         :alt="pokemon.name"
-        :lazy-src="getPokemonImg(pokemon.sprites.other)"
-        :src="getPokemonImg(pokemon.sprites.other)"
+        :lazy-src="getPokemonImg()"
+        :src="getPokemonImg()"
         @load="onImgLoad"
       />
       <v-progress-circular indeterminate color="white" v-if="!imageLoaded" />
@@ -39,21 +38,20 @@
         no-line-height
         d-flex
         flex-column
-        justify-start
-        align-start
+        justify-center
+        align-center
         px-2 px-md-10
         py-7
       "
       :style="{
-        'background-color':
-          getTypeColor(pokemon.types[0].type.name) + '!important',
+        'background-color': mainColor + '!important',
       }"
     >
       <v-chip
-        color="white"
+        color="white align-self-end mr-7"
         class="mt-6"
         large
-        :text-color="getTypeColor(pokemon.types[0].type.name)"
+        :text-color="mainColor"
       >
         <v-chip
           class="mx-2"
@@ -61,7 +59,10 @@
           :key="type.slot"
           :color="getTypeColor(type.type.name)"
           v-for="type in pokemon.types"
-          >{{ capitalizeType(type.type.name) }}
+        >
+          {{
+            $vuetify.lang.t(`$vuetify.Types.${capitalizeType(type.type.name)}`)
+          }}
         </v-chip>
       </v-chip>
       <v-card elevation="3" shaped class="content-card mt-12 mx-1 px-4 pt-3">
@@ -77,31 +78,23 @@
               <span
                 class="font-weight-bold"
                 :style="{
-                  color: getTypeColor(
-                    pokemon.types.length > 1
-                      ? pokemon.types[1].type.name
-                      : pokemon.types[0].type.name
-                  ),
+                  color: secundaryColor,
                 }"
               >
-                Height:
+                {{ $vuetify.lang.t(`$vuetify.Pokemon.Height`) }}:
               </span>
-              {{ convertHeight(pokemon.height) }} m
+              {{ convertHeight(pokemon.height) }}
             </v-col>
             <v-col cols="12" sm="6">
               <span
                 class="font-weight-bold"
                 :style="{
-                  color: getTypeColor(
-                    pokemon.types.length > 1
-                      ? pokemon.types[1].type.name
-                      : pokemon.types[0].type.name
-                  ),
+                  color: secundaryColor,
                 }"
               >
-                Weight:
+                {{ $vuetify.lang.t(`$vuetify.Pokemon.Weight`) }}:
               </span>
-              {{ convertWeight(pokemon.weight) }} Kg
+              {{ convertWeight(pokemon.weight) }}
             </v-col>
           </v-row>
           <v-row>
@@ -109,14 +102,11 @@
               <span
                 class="font-weight-bold"
                 :style="{
-                  color: getTypeColor(
-                    pokemon.types.length > 1
-                      ? pokemon.types[1].type.name
-                      : pokemon.types[0].type.name
-                  ),
+                  color: secundaryColor,
                 }"
-                >Genus:</span
               >
+                {{ $vuetify.lang.t(`$vuetify.Pokemon.Genus`) }}:
+              </span>
               {{ getGenus() }}
             </v-col>
           </v-row>
@@ -125,66 +115,46 @@
               <span
                 class="font-weight-bold"
                 :style="{
-                  color: getTypeColor(
-                    pokemon.types.length > 1
-                      ? pokemon.types[1].type.name
-                      : pokemon.types[0].type.name
-                  ),
+                  color: secundaryColor,
                 }"
-                >Generation:</span
               >
+                {{ $vuetify.lang.t(`$vuetify.Pokemon.Generation`) }}:
+              </span>
               {{ getGeneration() }}
             </v-col>
           </v-row>
           <v-row class="d-flex flex-row justify-center align-center my-6">
             <v-chip
               text-color="white"
-              :color="colorsCaracteristics.legendary"
+              :color="getCaracteristicColor('legendary')"
               v-if="specie.is_legendary"
             >
-              Legendary
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Legendary`) }}:
             </v-chip>
             <v-chip
               text-color="white"
-              :color="colorsCaracteristics.mythical"
+              :color="getCaracteristicColor('mythical')"
               v-if="specie.is_mythical"
             >
-              Mythical
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Mythical`) }}:
             </v-chip>
             <v-chip
               text-color="white"
-              :color="colorsCaracteristics.baby"
+              :color="getCaracteristicColor('baby')"
               v-if="specie.is_baby"
             >
-              Baby
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Baby`) }}:
             </v-chip>
             <v-chip
               small
               text-color="white"
-              :color="
-                getTypeColor(
-                  pokemon.types.length > 1
-                    ? pokemon.types[1].type.name
-                    : pokemon.types[0].type.name
-                )
-              "
+              :color="secundaryColor"
               v-if="pokemon.is_default"
             >
-              Default
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Default`) }}:
             </v-chip>
-            <v-chip
-              small
-              outlined
-              :color="
-                getTypeColor(
-                  pokemon.types.length > 1
-                    ? pokemon.types[1].type.name
-                    : pokemon.types[0].type.name
-                )
-              "
-              v-else
-            >
-              Alternative
+            <v-chip small outlined :color="secundaryColor" v-else>
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Alternative`) }}:
             </v-chip>
           </v-row>
         </v-card-text>
@@ -194,12 +164,10 @@
 </template>
 
 <script lang="ts">
-import { Other } from "@/models/Pokemons/Other";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
-import { colors } from "@/models/Type/colors";
-import { colorsCaracteristics } from "@/models/Pokemons/CaracteristicsEnum";
+import PokemonFormatterHelper from "@/utils/PokemonFormatterHelper";
 
 @Component
 export default class MainPage extends Vue {
@@ -208,106 +176,79 @@ export default class MainPage extends Vue {
   @Prop()
   public specie!: Specie;
 
-  public colorsCaracteristics = colorsCaracteristics;
+  public pokemonFormatterHelper = new PokemonFormatterHelper();
 
   public imageLoaded = false;
+
+  public get mainColor(): string {
+    return this.getTypeColor(this.pokemon.types[0].type.name);
+  }
+
+  public get secundaryColor(): string {
+    return this.getTypeColor(
+      this.pokemon.types.length > 1
+        ? this.pokemon.types[1].type.name
+        : this.pokemon.types[0].type.name
+    );
+  }
 
   private onImgLoad() {
     this.imageLoaded = true;
   }
 
   private getTypeColor(name: string): string {
-    return (colors as never)[name];
+    return this.pokemonFormatterHelper.getTypeColor(name);
+  }
+
+  private getCaracteristicColor(name: string): string {
+    return this.pokemonFormatterHelper.getCaracteristicColor(name);
   }
 
   private formatPokedexNumber(pokedexNumber: number): string {
-    let result = pokedexNumber.toString();
-    while (result.length < 3) {
-      result = "0".concat(result);
-    }
-    return result;
+    return this.pokemonFormatterHelper.formatPokedexNumber(pokedexNumber);
   }
 
   private capitalizeName(name: string, uniqueName = false): string {
-    if (!uniqueName) {
-      if (this.specie?.names) {
-        for (let n of this.specie.names) {
-          if (n.language.name === "en") {
-            return n.name;
-          }
-        }
-      }
-    }
-    const spplitedName = name.split("-");
-    const allUpperCase = ["GMAX"];
-    spplitedName.map((n, index) => {
-      if (allUpperCase.includes(n.toUpperCase())) {
-        n = n.toUpperCase();
-      } else {
-        n = n.charAt(0).toUpperCase() + n.slice(1);
-      }
-      spplitedName[index] = n;
-    });
-    return spplitedName.join(" ");
+    return this.pokemonFormatterHelper.capitalizeName(
+      this.specie,
+      name,
+      this.$vuetify.lang.current,
+      uniqueName
+    );
   }
 
   private capitalizeType(name: string): string {
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    return this.pokemonFormatterHelper.capitalizeType(name);
   }
 
-  private getPokemonImg(other: Other): string {
-    if (other.dream_world.front_default) {
-      return other.dream_world.front_default;
-    }
-    const officialArtwork = "front_default";
-    const jumpChars = 3;
-    const otherString = JSON.stringify(other);
-    const index = otherString.lastIndexOf(officialArtwork);
-    const partialUrl = otherString.substring(
-      index + jumpChars + officialArtwork.length,
-      otherString.length
-    );
-    const indexSufix = partialUrl.indexOf('"');
-    if (indexSufix === -1) {
-      return require("@/assets/NoPokemon.png");
-    }
-    const url = partialUrl.substring(0, indexSufix);
-    return url;
+  private getPokemonImg(): string {
+    return this.pokemonFormatterHelper.getImg(this.pokemon);
   }
 
   private getFlavorText(): string {
-    if (this.specie.flavor_text_entries.length > 0) {
-      return (
-        this.specie.flavor_text_entries
-          .find((t) => t.language.name === "en")
-          ?.flavor_text.replaceAll("POKéMON", "pokémon")
-          .replaceAll("\f", " ") || ""
-      );
-    }
-    return "";
+    return this.pokemonFormatterHelper.getFlavorText(
+      this.specie,
+      this.$vuetify.lang.current
+    );
   }
 
   private getGenus(): string {
-    return (
-      this.specie.genera.find((g) => g.language.name === "en")?.genus ||
-      "Unknown"
+    return this.pokemonFormatterHelper.getGenus(
+      this.specie,
+      this.$vuetify.lang.current
     );
   }
 
   private getGeneration(): string {
-    const generation = this.specie.generation.name;
-    return (
-      generation.charAt(0).toUpperCase() +
-        generation.substring(1, generation.length) || ""
-    );
+    return this.pokemonFormatterHelper.getGeneration(this.specie);
   }
 
-  private convertHeight(height: number): number {
-    return Math.floor(height * 0.1 * 100) / 100;
+  private convertHeight(height: number): string {
+    return this.pokemonFormatterHelper.getHeight(height);
   }
 
-  private convertWeight(weight: number): number {
-    return Math.floor(weight * 0.1 * 100) / 100;
+  private convertWeight(weight: number): string {
+    return this.pokemonFormatterHelper.getWeight(weight);
   }
 }
 </script>

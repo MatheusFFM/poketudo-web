@@ -9,7 +9,7 @@
         <v-icon color="tertiary" class="mr-2">
           {{ link.props.default.icon }}
         </v-icon>
-        {{ link.name }}
+        {{ $vuetify.lang.t(`$vuetify.${link.name}`) }}
       </v-tab>
     </v-tabs>
   </v-app-bar>
