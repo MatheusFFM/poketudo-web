@@ -30,7 +30,6 @@
     >
     <v-container fluid>
       <MainPage :pokemon="pokemon" :specie="specie" />
-
       <PokemonDetails
         v-if="pokemon && specie"
         :pokemon="pokemon"

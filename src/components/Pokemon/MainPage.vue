@@ -1,5 +1,5 @@
 <template>
-  <v-row class="fill">
+  <v-row class="fill mb-16 mb-sm-0">
     <v-col
       cols="12"
       sm="6"
@@ -268,7 +268,7 @@ export default class MainPage extends Vue {
 <style scoped>
 .fill {
   width: 100vw;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 52px);
 }
 .pokemon-name-container {
   width: 100%;
@@ -304,10 +304,14 @@ export default class MainPage extends Vue {
     font-size: 3.3rem;
   }
 }
+@media only screen and (max-width: 781px) {
+  .fill {
+    height: calc(100vh - 56px - 28px);
+  }
+}
 @media only screen and (max-width: 600px) {
   .fill {
     height: calc(200vh - 56px);
-    max-height: 1000px;
   }
   .image-container {
     height: 310px;
