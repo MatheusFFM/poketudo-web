@@ -7,6 +7,8 @@ export default {
   Settings: "设置",
   heightUnit: "cm",
   weightUnit: "kg",
+  Total: "全部的",
+  Average: "平均数",
 
   Pokemon: {
     Height: "高度",
@@ -45,5 +47,14 @@ export default {
     Dark: "黑暗的",
     Steel: "钢",
     Fairy: "仙女",
+  },
+
+  Stats: {
+    hp: "生命值",
+    attack: "攻击",
+    defense: "防御",
+    specialAttack: "特殊攻击",
+    specialDefense: "特防",
+    speed: "速度",
   },
 };

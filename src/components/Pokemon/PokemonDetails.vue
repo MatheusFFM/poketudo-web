@@ -21,7 +21,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Hp</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.hp`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -37,7 +39,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Ataque</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.attack`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -53,7 +57,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Defesa</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.defense`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -69,9 +75,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1"
-              >Ataque especial</span
-            >
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.specialAttack`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -87,9 +93,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1"
-              >Defesa especial</span
-            >
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.specialDefense`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -105,7 +111,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Velocidade</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.speed`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -121,7 +129,9 @@
             md="6"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Média</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Average`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="100"
@@ -137,7 +147,9 @@
             md="6"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Total</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Total`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="100"
@@ -150,7 +162,32 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" md="6" class="fill"> </v-col>
+      <v-col
+        cols="12"
+        md="6"
+        class="
+          fill
+          px-10
+          mt-16 mt-sm-0
+          pt-14 pt-md-7
+          pb-14
+          d-flex
+          flex-column
+          align-center
+          justify-center
+        "
+      >
+        <v-row>
+          <v-col
+            cols="12"
+            class="d-flex flex-column align-center justify-center"
+          >
+            <span class="display-3 font-weight-bold">{{
+              capitalizeName(pokemon.name)
+            }}</span>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -234,6 +271,15 @@ export default class PokemonDetails extends Vue {
   }
   private getTypeColor(name: string): string {
     return this.pokemonFormatterHelper.getTypeColor(name);
+  }
+
+  private capitalizeName(name: string, uniqueName = false): string {
+    return this.pokemonFormatterHelper.capitalizeName(
+      this.specie,
+      name,
+      this.$vuetify.lang.current,
+      uniqueName
+    );
   }
 }
 </script>

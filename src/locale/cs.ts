@@ -7,6 +7,8 @@ export default {
   Settings: "Nastavení",
   heightUnit: "cm",
   weightUnit: "kg",
+  Total: "Celkový",
+  Average: "Průměrný",
 
   Pokemon: {
     Height: "Výška",
@@ -45,5 +47,14 @@ export default {
     Dark: "Temný",
     Steel: "Ocel",
     Fairy: "Víla",
+  },
+
+  Stats: {
+    hp: "HP",
+    attack: "Záchvat",
+    defense: "Obrana",
+    specialAttack: "Speciální útok",
+    specialDefense: "Speciální obrana",
+    speed: "Rychlost",
   },
 };

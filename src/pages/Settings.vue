@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-expand-transition>
     <v-expansion-panels v-model="panel" multiple>
       <v-expansion-panel>
         <v-expansion-panel-header class="py-5">
@@ -10,7 +10,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-  </v-container>
+  </v-expand-transition>
 </template>
 
 <script lang="ts">

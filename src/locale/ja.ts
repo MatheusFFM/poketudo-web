@@ -7,6 +7,8 @@ export default {
   Settings: "設定",
   heightUnit: "cm",
   weightUnit: "kg",
+  Total: "合計",
+  Average: "平均",
 
   Pokemon: {
     Height: "高さ",
@@ -45,5 +47,13 @@ export default {
     Dark: "あく",
     Steel: "はがね",
     Fairy: "フェアリー",
+  },
+  Stats: {
+    hp: "HP",
+    attack: "こうげき",
+    defense: "ぼうぎょ",
+    specialAttack: "とくこう",
+    specialDefense: "とくぼう",
+    speed: "すばやさ",
   },
 };
