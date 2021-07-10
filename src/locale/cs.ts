@@ -5,6 +5,8 @@ export default {
   Home: "Hlavní",
   Pokemons: "Pokémoni",
   Settings: "Nastavení",
+  heightUnit: "cm",
+  weightUnit: "kg",
 
   Pokemon: {
     Height: "Výška",
@@ -16,6 +18,12 @@ export default {
     Baby: "Dítě",
     Default: "Výchozí",
     Alternative: "Alternativní",
+  },
+
+  SettingsPage: {
+    Incomplete: "Neúplný",
+    Language: "Jazyk",
+    LanguageTip: "Vyberte jazyk této aplikace:",
   },
 
   Types: {

@@ -5,6 +5,8 @@ export default {
   Home: "Principal",
   Pokemons: "Pokémons",
   Settings: "Paramètres",
+  heightUnit: "cm",
+  weightUnit: "kg",
 
   Pokemon: {
     Height: "Hauteur",
@@ -16,6 +18,12 @@ export default {
     Baby: "Bébé",
     Default: "Défaut",
     Alternative: "Alternative",
+  },
+
+  SettingsPage: {
+    Incomplete: "Incomplet",
+    Language: "Langue",
+    LanguageTip: "Sélectionnez la langue de cette application:",
   },
 
   Types: {

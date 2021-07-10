@@ -5,6 +5,8 @@ export default {
   Home: "Home",
   Pokemons: "Pokemons",
   Settings: "Settings",
+  heightUnit: "m",
+  weightUnit: "lbs",
 
   Pokemon: {
     Height: "Height",

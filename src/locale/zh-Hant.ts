@@ -5,6 +5,8 @@ export default {
   Home: "主要的",
   Pokemons: "口袋妖怪",
   Settings: "設置",
+  heightUnit: "cm",
+  weightUnit: "kg",
 
   Pokemon: {
     Height: "高度",
@@ -16,6 +18,12 @@ export default {
     Baby: "嬰兒",
     Default: "默認",
     Alternative: "選擇",
+  },
+
+  SettingsPage: {
+    Incomplete: "不完整",
+    Language: "語",
+    LanguageTip: "選擇此應用程序的語言：",
   },
 
   Types: {

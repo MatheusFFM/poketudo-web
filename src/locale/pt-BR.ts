@@ -5,10 +5,12 @@ export default {
   Home: "Início",
   Pokemons: "Pokemons",
   Settings: "Configurações",
+  heightUnit: "m",
+  weightUnit: "kg",
 
   Pokemon: {
-    Height: "Peso",
-    Weight: "Altura",
+    Height: "Altura",
+    Weight: "Peso",
     Genus: "Gênero",
     Generation: "Geração",
     Legendary: "Lendário",
@@ -16,6 +18,12 @@ export default {
     Baby: "Bebê",
     Default: "Padrão",
     Alternative: "Alternativo",
+  },
+
+  SettingsPage: {
+    Incomplete: "Incompleto",
+    Language: "Idioma",
+    LanguageTip: "Seleciona o idioma dessa aplicação:",
   },
 
   Types: {
