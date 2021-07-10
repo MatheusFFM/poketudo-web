@@ -73,19 +73,35 @@ export default class PokemonFormatterHelper {
 
   public getFlavorText(specie: Specie, language: string): string {
     if (specie.flavor_text_entries.length > 0) {
-      return (
-        specie.flavor_text_entries
-          .find((t) => t.language.name === language)
-          ?.flavor_text.replaceAll("POKéMON", "pokémon")
-          .replaceAll("\f", " ") || ""
+      language = this.formatLanguage(language);
+
+      let allFlavors = specie.flavor_text_entries.filter(
+        (t) => t.language.name === language
       );
+
+      if (allFlavors.length === 0) {
+        allFlavors = specie.flavor_text_entries.filter(
+          (t) => t.language.name === "en"
+        );
+      }
+
+      if (allFlavors.length === 0) {
+        return "";
+      }
+
+      const flavor = allFlavors[Math.floor(Math.random() * allFlavors.length)];
+      return flavor.flavor_text
+        .replaceAll("POKéMON", "pokémon")
+        .replaceAll("\f", " ");
     }
     return "";
   }
 
   public getGenus(specie: Specie, language: string): string {
+    language = this.formatLanguage(language);
     return (
       specie.genera.find((g) => g.language.name === language)?.genus ||
+      specie.genera.find((g) => g.language.name === "en")?.genus ||
       "Unknown"
     );
   }
@@ -104,5 +120,14 @@ export default class PokemonFormatterHelper {
 
   public getWeight(weight: number, language = "en"): string {
     return Math.floor(weight * 0.1 * 100) / 100 + " kg";
+  }
+
+  private formatLanguage(language: string): string {
+    return language.length <= 2
+      ? language
+      : language
+          .substr(0, 2)
+          .concat("-")
+          .concat(language.substr(2, language.length));
   }
 }

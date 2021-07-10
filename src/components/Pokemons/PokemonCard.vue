@@ -48,7 +48,10 @@
           :key="type.slot"
           :color="getTypeColor(type.type.name)"
           v-for="type in pokemon.types"
-          >{{ capitalizeType(type.type.name) }}
+        >
+          {{
+            $vuetify.lang.t(`$vuetify.Types.${capitalizeType(type.type.name)}`)
+          }}
         </v-chip>
       </v-card-text>
     </v-card>

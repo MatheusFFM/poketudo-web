@@ -59,7 +59,10 @@
           :key="type.slot"
           :color="getTypeColor(type.type.name)"
           v-for="type in pokemon.types"
-          >{{ capitalizeType(type.type.name) }}
+        >
+          {{
+            $vuetify.lang.t(`$vuetify.Types.${capitalizeType(type.type.name)}`)
+          }}
         </v-chip>
       </v-chip>
       <v-card elevation="3" shaped class="content-card mt-12 mx-1 px-4 pt-3">
@@ -78,7 +81,7 @@
                   color: secundaryColor,
                 }"
               >
-                Height:
+                {{ $vuetify.lang.t(`$vuetify.Pokemon.Height`) }}:
               </span>
               {{ convertHeight(pokemon.height) }}
             </v-col>
@@ -89,7 +92,7 @@
                   color: secundaryColor,
                 }"
               >
-                Weight:
+                {{ $vuetify.lang.t(`$vuetify.Pokemon.Weight`) }}:
               </span>
               {{ convertWeight(pokemon.weight) }}
             </v-col>
@@ -101,8 +104,9 @@
                 :style="{
                   color: secundaryColor,
                 }"
-                >Genus:</span
               >
+                {{ $vuetify.lang.t(`$vuetify.Pokemon.Genus`) }}:
+              </span>
               {{ getGenus() }}
             </v-col>
           </v-row>
@@ -113,8 +117,9 @@
                 :style="{
                   color: secundaryColor,
                 }"
-                >Generation:</span
               >
+                {{ $vuetify.lang.t(`$vuetify.Pokemon.Generation`) }}:
+              </span>
               {{ getGeneration() }}
             </v-col>
           </v-row>
@@ -124,21 +129,21 @@
               :color="getCaracteristicColor('legendary')"
               v-if="specie.is_legendary"
             >
-              Legendary
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Legendary`) }}:
             </v-chip>
             <v-chip
               text-color="white"
               :color="getCaracteristicColor('mythical')"
               v-if="specie.is_mythical"
             >
-              Mythical
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Mythical`) }}:
             </v-chip>
             <v-chip
               text-color="white"
               :color="getCaracteristicColor('baby')"
               v-if="specie.is_baby"
             >
-              Baby
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Baby`) }}:
             </v-chip>
             <v-chip
               small
@@ -146,10 +151,10 @@
               :color="secundaryColor"
               v-if="pokemon.is_default"
             >
-              Default
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Default`) }}:
             </v-chip>
             <v-chip small outlined :color="secundaryColor" v-else>
-              Alternative
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Alternative`) }}:
             </v-chip>
           </v-row>
         </v-card-text>
@@ -220,11 +225,17 @@ export default class MainPage extends Vue {
   }
 
   private getFlavorText(): string {
-    return this.pokemonFormatterHelper.getFlavorText(this.specie, "en");
+    return this.pokemonFormatterHelper.getFlavorText(
+      this.specie,
+      this.$vuetify.lang.current
+    );
   }
 
   private getGenus(): string {
-    return this.pokemonFormatterHelper.getGenus(this.specie, "en");
+    return this.pokemonFormatterHelper.getGenus(
+      this.specie,
+      this.$vuetify.lang.current
+    );
   }
 
   private getGeneration(): string {
