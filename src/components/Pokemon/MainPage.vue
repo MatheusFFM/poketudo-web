@@ -84,6 +84,7 @@
                 {{ $vuetify.lang.t(`$vuetify.Pokemon.Height`) }}:
               </span>
               {{ convertHeight(pokemon.height) }}
+              {{ $vuetify.lang.t(`$vuetify.heightUnit`) }}
             </v-col>
             <v-col cols="12" sm="6">
               <span
@@ -95,6 +96,7 @@
                 {{ $vuetify.lang.t(`$vuetify.Pokemon.Weight`) }}:
               </span>
               {{ convertWeight(pokemon.weight) }}
+              {{ $vuetify.lang.t(`$vuetify.weightUnit`) }}
             </v-col>
           </v-row>
           <v-row>
@@ -125,6 +127,7 @@
           </v-row>
           <v-row class="d-flex flex-row justify-center align-center my-6">
             <v-chip
+              class="mx-3"
               text-color="white"
               :color="getCaracteristicColor('legendary')"
               v-if="specie.is_legendary"
@@ -132,6 +135,7 @@
               {{ $vuetify.lang.t(`$vuetify.Pokemon.Legendary`) }}
             </v-chip>
             <v-chip
+              class="mx-3"
               text-color="white"
               :color="getCaracteristicColor('mythical')"
               v-if="specie.is_mythical"
@@ -139,6 +143,7 @@
               {{ $vuetify.lang.t(`$vuetify.Pokemon.Mythical`) }}
             </v-chip>
             <v-chip
+              class="mx-3"
               text-color="white"
               :color="getCaracteristicColor('baby')"
               v-if="specie.is_baby"
@@ -146,6 +151,7 @@
               {{ $vuetify.lang.t(`$vuetify.Pokemon.Baby`) }}
             </v-chip>
             <v-chip
+              class="mx-3"
               small
               text-color="white"
               :color="secundaryColor"
@@ -153,7 +159,7 @@
             >
               {{ $vuetify.lang.t(`$vuetify.Pokemon.Default`) }}
             </v-chip>
-            <v-chip small outlined :color="secundaryColor" v-else>
+            <v-chip class="mx-3" small outlined :color="secundaryColor" v-else>
               {{ $vuetify.lang.t(`$vuetify.Pokemon.Alternative`) }}
             </v-chip>
           </v-row>
@@ -244,11 +250,17 @@ export default class MainPage extends Vue {
   }
 
   private convertHeight(height: number): string {
-    return this.pokemonFormatterHelper.getHeight(height);
+    return this.pokemonFormatterHelper.getHeight(
+      height,
+      this.$vuetify.lang.current
+    );
   }
 
   private convertWeight(weight: number): string {
-    return this.pokemonFormatterHelper.getWeight(weight);
+    return this.pokemonFormatterHelper.getWeight(
+      weight,
+      this.$vuetify.lang.current
+    );
   }
 }
 </script>

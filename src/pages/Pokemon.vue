@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide">
+  <v-expand-transition>
     <PokemonInfos
       v-if="pokemon && specie"
       :pokemon="pokemon"
@@ -11,7 +11,7 @@
     <div class="fill" v-else>
       <LoadingPokeball />
     </div>
-  </transition>
+  </v-expand-transition>
 </template>
 
 <script lang="ts">

@@ -2,7 +2,7 @@ import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
 import { colors } from "@/models/Type/colors";
 import { colorsCaracteristics } from "@/models/Pokemons/CaracteristicsEnum";
-
+import { localeEnum } from "@/models/Locale/locales";
 export default class PokemonFormatterHelper {
   public formatPokedexNumber(pokedexNumber: number): string {
     let result = pokedexNumber.toString();
@@ -126,12 +126,22 @@ export default class PokemonFormatterHelper {
     return spplitedGeneration.join(" ");
   }
 
-  public getHeight(height: number, language = "en"): string {
-    return Math.floor(height * 0.1 * 100) / 100 + " m";
+  public getHeight(height: number, language: string): string {
+    let constant = 0.1;
+    const locale = localeEnum.locales.find((l) => l.name === language);
+    if (locale?.height) {
+      constant = locale.height;
+    }
+    return Math.floor(height * constant * 100) / 100 + "";
   }
 
-  public getWeight(weight: number, language = "en"): string {
-    return Math.floor(weight * 0.1 * 100) / 100 + " kg";
+  public getWeight(weight: number, language: string): string {
+    let constant = 0.1;
+    const locale = localeEnum.locales.find((l) => l.name === language);
+    if (locale?.weight) {
+      constant = locale.weight;
+    }
+    return Math.floor(weight * constant * 100) / 100 + "";
   }
 
   private formatLanguage(language: string): string {

@@ -5,6 +5,8 @@ export default {
   Home: "본관",
   Pokemons: "포켓몬",
   Settings: "설정",
+  heightUnit: "cm",
+  weightUnit: "kg",
 
   Pokemon: {
     Height: "신장",
@@ -16,6 +18,12 @@ export default {
     Baby: "아가",
     Default: "기본",
     Alternative: "대안",
+  },
+
+  SettingsPage: {
+    Incomplete: "불완전한",
+    Language: "언어",
+    LanguageTip: "이 응용 프로그램의 언어를 선택하십시오.",
   },
 
   Types: {

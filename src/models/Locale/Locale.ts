@@ -3,4 +3,7 @@ export interface Locale {
   view: string;
   active: boolean;
   completed: boolean;
+  weight?: number;
+  height?: number;
+  inchs?: boolean;
 }
