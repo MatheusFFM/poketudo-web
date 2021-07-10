@@ -78,7 +78,6 @@ export default class Pokemons extends Vue {
 
   @Watch("pokemonRoute")
   private async loadPokemon() {
-    window.scrollTo(0, 0);
     this.pokemonName = this.pokemonRoute;
     if (!this.pokemonListOnStore) {
       await this.fetchStore();
