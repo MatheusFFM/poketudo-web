@@ -129,21 +129,21 @@
               :color="getCaracteristicColor('legendary')"
               v-if="specie.is_legendary"
             >
-              {{ $vuetify.lang.t(`$vuetify.Pokemon.Legendary`) }}:
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Legendary`) }}
             </v-chip>
             <v-chip
               text-color="white"
               :color="getCaracteristicColor('mythical')"
               v-if="specie.is_mythical"
             >
-              {{ $vuetify.lang.t(`$vuetify.Pokemon.Mythical`) }}:
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Mythical`) }}
             </v-chip>
             <v-chip
               text-color="white"
               :color="getCaracteristicColor('baby')"
               v-if="specie.is_baby"
             >
-              {{ $vuetify.lang.t(`$vuetify.Pokemon.Baby`) }}:
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Baby`) }}
             </v-chip>
             <v-chip
               small
@@ -151,10 +151,10 @@
               :color="secundaryColor"
               v-if="pokemon.is_default"
             >
-              {{ $vuetify.lang.t(`$vuetify.Pokemon.Default`) }}:
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Default`) }}
             </v-chip>
             <v-chip small outlined :color="secundaryColor" v-else>
-              {{ $vuetify.lang.t(`$vuetify.Pokemon.Alternative`) }}:
+              {{ $vuetify.lang.t(`$vuetify.Pokemon.Alternative`) }}
             </v-chip>
           </v-row>
         </v-card-text>
