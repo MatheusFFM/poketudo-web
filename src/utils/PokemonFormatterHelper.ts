@@ -15,10 +15,18 @@ export default class PokemonFormatterHelper {
   public capitalizeName(
     specie: Specie,
     name: string,
+    language: string,
     uniqueName = false
   ): string {
+    language = this.formatLanguage(language);
+
     if (!uniqueName) {
       if (specie.names) {
+        for (const n of specie.names) {
+          if (n.language.name === language) {
+            return n.name;
+          }
+        }
         for (const n of specie.names) {
           if (n.language.name === "en") {
             return n.name;
@@ -108,10 +116,14 @@ export default class PokemonFormatterHelper {
 
   public getGeneration(specie: Specie): string {
     const generation = specie.generation.name;
-    return (
-      generation.charAt(0).toUpperCase() +
-        generation.substring(1, generation.length) || ""
-    );
+    const spplitedGeneration = generation.split("-");
+    if (spplitedGeneration.length > 1) {
+      spplitedGeneration[1] = spplitedGeneration[1].toUpperCase();
+    }
+    spplitedGeneration[0] =
+      spplitedGeneration[0].charAt(0).toUpperCase() +
+      spplitedGeneration[0].substring(1, spplitedGeneration[0].length);
+    return spplitedGeneration.join(" ");
   }
 
   public getHeight(height: number, language = "en"): string {

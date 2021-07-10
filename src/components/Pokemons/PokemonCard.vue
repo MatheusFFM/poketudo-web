@@ -92,7 +92,11 @@ export default class PokemonCard extends Vue {
 
   private capitalizeName(name: string): string {
     if (this.specie) {
-      return this.pokemonFormatterHelper.capitalizeName(this.specie, name);
+      return this.pokemonFormatterHelper.capitalizeName(
+        this.specie,
+        name,
+        this.$vuetify.lang.current
+      );
     }
     return "";
   }

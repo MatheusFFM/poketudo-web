@@ -212,6 +212,7 @@ export default class MainPage extends Vue {
     return this.pokemonFormatterHelper.capitalizeName(
       this.specie,
       name,
+      this.$vuetify.lang.current,
       uniqueName
     );
   }
