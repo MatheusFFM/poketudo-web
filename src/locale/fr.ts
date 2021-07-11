@@ -60,6 +60,7 @@ export default {
   },
 
   Ability: {
+    Abilities: "Capacités",
     Hidden: "Caché",
     Slot: "Positionner",
   },

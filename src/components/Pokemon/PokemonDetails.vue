@@ -185,7 +185,9 @@
                   color: 'white',
                 }"
               >
-                <span class="font-weight-bold"> Habilidades </span>
+                <span class="font-weight-bold">
+                  {{ $vuetify.lang.t(`$vuetify.Ability.Abilities`) }}
+                </span>
               </v-card-title>
               <v-tabs centered :background-color="mainColor" v-model="tab">
                 <v-tab

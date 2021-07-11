@@ -60,6 +60,7 @@ export default {
   },
 
   Ability: {
+    Abilities: "能力",
     Hidden: "隐",
     Slot: "位置",
   },

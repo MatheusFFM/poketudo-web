@@ -59,6 +59,7 @@ export default {
   },
 
   Ability: {
+    Abilities: "能力",
     Hidden: "隠し",
     Slot: "スロット",
   },
