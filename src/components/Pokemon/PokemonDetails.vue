@@ -177,7 +177,7 @@
             }}</span>
           </v-col>
           <v-col cols="12" class="d-flex flex-column align-center mt-sm-0">
-            <v-card elevation="3" width="90%" shaped class="mt-6 pb-7">
+            <v-card elevation="3" shaped class="mt-6 pb-7">
               <v-card-title
                 class="d-flex flex-column align-center"
                 :style="{
