@@ -9,6 +9,7 @@ export default {
   weightUnit: "kg",
   Total: "全部的",
   Average: "平均數",
+  Name: "名稱",
 
   Pokemon: {
     Height: "高度",
@@ -56,5 +57,10 @@ export default {
     specialAttack: "特殊攻擊",
     specialDefense: "特防",
     speed: "速度",
+  },
+
+  Ability: {
+    Hidden: "隱",
+    Slot: "位置",
   },
 };

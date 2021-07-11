@@ -9,6 +9,7 @@ export default {
   weightUnit: "kg",
   Total: "合計",
   Average: "平均",
+  Name: "名前",
 
   Pokemon: {
     Height: "高さ",
@@ -55,5 +56,10 @@ export default {
     specialAttack: "とくこう",
     specialDefense: "とくぼう",
     speed: "すばやさ",
+  },
+
+  Ability: {
+    Hidden: "隠し",
+    Slot: "スロット",
   },
 };

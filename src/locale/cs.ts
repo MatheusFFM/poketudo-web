@@ -9,6 +9,7 @@ export default {
   weightUnit: "kg",
   Total: "Celkový",
   Average: "Průměrný",
+  Name: "název",
 
   Pokemon: {
     Height: "Výška",
@@ -56,5 +57,10 @@ export default {
     specialAttack: "Speciální útok",
     specialDefense: "Speciální obrana",
     speed: "Rychlost",
+  },
+
+  Ability: {
+    Hidden: "Skrytý",
+    Slot: "Pozice",
   },
 };

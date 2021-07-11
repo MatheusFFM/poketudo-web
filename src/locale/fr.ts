@@ -9,6 +9,7 @@ export default {
   weightUnit: "kg",
   Total: "Total",
   Average: "Moyenne",
+  Name: "Nom",
 
   Pokemon: {
     Height: "Hauteur",
@@ -56,5 +57,10 @@ export default {
     specialAttack: "Attaque Spéciale",
     specialDefense: "Défense Spéciale",
     speed: "Vitesse",
+  },
+
+  Ability: {
+    Hidden: "Caché",
+    Slot: "Positionner",
   },
 };

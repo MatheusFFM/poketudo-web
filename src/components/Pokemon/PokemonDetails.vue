@@ -168,6 +168,7 @@
         class="
           px-10
           mt-16 mt-sm-0
+          mb-sm-0
           pt-14 pt-md-7
           pb-14
           d-flex
@@ -176,7 +177,10 @@
           justify-center
         "
       >
-        <v-row class="card-abilities" :class="{ hide: abilities.length === 0 }">
+        <v-row
+          class="card-abilities mt-sm-0 pt-sm-0"
+          :class="{ hide: abilities.length === 0 }"
+        >
           <v-col
             cols="12"
             class="pr-14 d-flex flex-column justify-center align-end"
@@ -186,18 +190,18 @@
               capitalizeName(pokemon.name)
             }}</span>
           </v-col>
-          <v-col cols="12" class="d-flex flex-column align-center">
-            <v-card min-height="400px" elevation="3" shaped class="mt-6">
+          <v-col cols="12" class="d-flex flex-column align-center mt-sm-0">
+            <v-card elevation="3" width="85%" shaped class="mt-6 pb-7">
               <v-card-title
                 class="d-flex flex-column align-center"
                 :style="{
-                  'background-color': secundaryColor,
+                  'background-color': mainColor,
                   color: 'white',
                 }"
               >
                 <span class="font-weight-bold"> Habilidades </span>
               </v-card-title>
-              <v-tabs centered :background-color="secundaryColor" v-model="tab">
+              <v-tabs centered :background-color="mainColor" v-model="tab">
                 <v-tab
                   class="d-flex flex-column align-center"
                   v-for="ability in abilities"
@@ -210,21 +214,61 @@
               <v-tabs-items v-model="tab">
                 <v-tab-item v-for="ability in abilities" :key="ability.id">
                   <v-card flat>
-                    <v-card-text>
+                    <v-card-text class="px-6 pt-6 pb-3">
                       <v-row>
-                        <v-col cols="12"
-                          >Slot # {{ getAbilitySlot(ability.name) }}</v-col
+                        <v-col
+                          cols="12"
+                          class="info-text d-flex flex-row align-start"
                         >
-                        <v-col cols="12">Name: {{ getName(ability) }}</v-col>
-                        <v-col cols="12"
-                          >Generation: {{ getGeneration(ability) }}</v-col
+                          <span
+                            class="font-weight-bold pr-2"
+                            :style="{
+                              color: secundaryColor,
+                            }"
+                            >{{ $vuetify.lang.t(`$vuetify.Name`) }}:
+                          </span>
+                          {{ getName(ability) }}</v-col
                         >
-                        <v-col cols="12"
-                          >Flavor: {{ getFlavorText(ability) }}</v-col
+                        <v-col
+                          cols="12"
+                          class="info-text d-flex flex-row align-start"
                         >
-                        <v-col cols="12" v-if="getAbilityHidden(ability.name)"
-                          >Hidden</v-col
+                          <span
+                            class="font-weight-bold pr-2"
+                            :style="{
+                              color: secundaryColor,
+                            }"
+                          >
+                            {{
+                              $vuetify.lang.t(`$vuetify.Pokemon.Generation`)
+                            }}:
+                          </span>
+                          {{ getGeneration(ability) }}</v-col
                         >
+                        <v-col
+                          cols="12"
+                          class="info-text d-flex flex-row align-start"
+                          >{{ getFlavorText(ability) }}</v-col
+                        >
+                        <v-col cols="12">
+                          <v-chip
+                            class="mx-3 px-2"
+                            text-color="white"
+                            :color="mainColor"
+                          >
+                            {{ $vuetify.lang.t(`$vuetify.Ability.Slot`) }} #{{
+                              getAbilitySlot(ability.name)
+                            }}
+                          </v-chip>
+                          <v-chip
+                            class="mx-3 px-2"
+                            text-color="white"
+                            :color="getCaracteristicColor('hidden')"
+                            v-if="getAbilityHidden(ability.name)"
+                          >
+                            {{ $vuetify.lang.t(`$vuetify.Ability.Hidden`) }}
+                          </v-chip>
+                        </v-col>
                       </v-row>
                     </v-card-text>
                   </v-card>
@@ -327,6 +371,9 @@ export default class PokemonDetails extends Vue {
   private getTypeColor(name: string): string {
     return this.pokemonFormatterHelper.getTypeColor(name);
   }
+  private getCaracteristicColor(name: string): string {
+    return this.pokemonFormatterHelper.getCaracteristicColor(name);
+  }
 
   private async mounted(): Promise<void> {
     this.getAbilities();
@@ -389,6 +436,10 @@ export default class PokemonDetails extends Vue {
 .fill {
   width: 100vw;
   height: calc(100vh - 52px);
+}
+
+.info-text {
+  font-size: 18px;
 }
 
 .hide {
