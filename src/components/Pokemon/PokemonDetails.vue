@@ -162,21 +162,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col
-        cols="12"
-        md="6"
-        class="
-          px-10
-          mt-16 mt-sm-0
-          mb-sm-0
-          pt-14 pt-md-7
-          pb-14
-          d-flex
-          flex-column
-          align-center
-          justify-center
-        "
-      >
+      <v-col cols="12" md="6" class="px-10 mb-sm-0 pt-md-7 pb-14">
         <v-row
           class="card-abilities mt-sm-0 pt-sm-0"
           :class="{ hide: abilities.length === 0 }"
@@ -191,7 +177,7 @@
             }}</span>
           </v-col>
           <v-col cols="12" class="d-flex flex-column align-center mt-sm-0">
-            <v-card elevation="3" width="85%" shaped class="mt-6 pb-7">
+            <v-card elevation="3" width="90%" shaped class="mt-6 pb-7">
               <v-card-title
                 class="d-flex flex-column align-center"
                 :style="{
