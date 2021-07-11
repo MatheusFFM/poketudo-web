@@ -7,6 +7,9 @@ export default {
   Settings: "impostazioni",
   heightUnit: "m",
   weightUnit: "kg",
+  Total: "Totale",
+  Average: "Media",
+  Name: "Nome",
 
   Pokemon: {
     Height: "Altezza",
@@ -45,5 +48,19 @@ export default {
     Dark: "Buio",
     Steel: "Acciaio",
     Fairy: "Folletto",
+  },
+
+  Stats: {
+    hp: "PS",
+    attack: "Attacco",
+    defense: "Difesa",
+    specialAttack: "Attacco Speciale",
+    specialDefense: "Difesa Speciale",
+    speed: "Velocità",
+  },
+
+  Ability: {
+    Hidden: "Nascosto",
+    Slot: "Posizione",
   },
 };

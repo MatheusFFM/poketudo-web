@@ -7,6 +7,9 @@ export default {
   Settings: "설정",
   heightUnit: "cm",
   weightUnit: "kg",
+  Total: "합계",
+  Average: "평균",
+  Name: "이름",
 
   Pokemon: {
     Height: "신장",
@@ -45,5 +48,19 @@ export default {
     Dark: "악",
     Steel: "강철",
     Fairy: "페어리",
+  },
+
+  Stats: {
+    hp: "HP",
+    attack: "공격",
+    defense: "방어",
+    specialAttack: "특수공격",
+    specialDefense: "특수방어",
+    speed: "스피드",
+  },
+
+  Ability: {
+    Hidden: "숨겨진",
+    Slot: "위치",
   },
 };

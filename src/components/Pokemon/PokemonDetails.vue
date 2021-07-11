@@ -21,7 +21,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Hp</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.hp`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -37,7 +39,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Ataque</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.attack`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -53,7 +57,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Defesa</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.defense`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -69,9 +75,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1"
-              >Ataque especial</span
-            >
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.specialAttack`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -87,9 +93,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1"
-              >Defesa especial</span
-            >
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.specialDefense`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -105,7 +111,9 @@
             md="4"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Velocidade</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Stats.speed`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="80"
@@ -121,7 +129,9 @@
             md="6"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Média</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Average`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="100"
@@ -137,7 +147,9 @@
             md="6"
             class="d-flex flex-column align-center justify-center"
           >
-            <span class="font-weight-bold mb-3 subtitle-1">Total</span>
+            <span class="font-weight-bold mb-3 subtitle-1">
+              {{ $vuetify.lang.t(`$vuetify.Total`) }}:
+            </span>
             <v-progress-circular
               :rotate="180"
               :size="100"
@@ -150,16 +162,134 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" md="6" class="fill"> </v-col>
+      <v-col
+        cols="12"
+        md="6"
+        class="
+          px-10
+          mt-16 mt-sm-0
+          mb-sm-0
+          pt-14 pt-md-7
+          pb-14
+          d-flex
+          flex-column
+          align-center
+          justify-center
+        "
+      >
+        <v-row
+          class="card-abilities mt-sm-0 pt-sm-0"
+          :class="{ hide: abilities.length === 0 }"
+        >
+          <v-col
+            cols="12"
+            class="pr-14 d-flex flex-column justify-center align-end"
+            v-if="$vuetify.breakpoint.smAndUp"
+          >
+            <span class="display-3 font-weight-bold">{{
+              capitalizeName(pokemon.name)
+            }}</span>
+          </v-col>
+          <v-col cols="12" class="d-flex flex-column align-center mt-sm-0">
+            <v-card elevation="3" width="85%" shaped class="mt-6 pb-7">
+              <v-card-title
+                class="d-flex flex-column align-center"
+                :style="{
+                  'background-color': mainColor,
+                  color: 'white',
+                }"
+              >
+                <span class="font-weight-bold"> Habilidades </span>
+              </v-card-title>
+              <v-tabs centered :background-color="mainColor" v-model="tab">
+                <v-tab
+                  class="d-flex flex-column align-center"
+                  v-for="ability in abilities"
+                  :key="ability.id"
+                >
+                  {{ getName(ability) }}
+                </v-tab>
+              </v-tabs>
+
+              <v-tabs-items v-model="tab">
+                <v-tab-item v-for="ability in abilities" :key="ability.id">
+                  <v-card flat>
+                    <v-card-text class="px-6 pt-6 pb-3">
+                      <v-row>
+                        <v-col
+                          cols="12"
+                          class="info-text d-flex flex-row align-start"
+                        >
+                          <span
+                            class="font-weight-bold pr-2"
+                            :style="{
+                              color: secundaryColor,
+                            }"
+                            >{{ $vuetify.lang.t(`$vuetify.Name`) }}:
+                          </span>
+                          {{ getName(ability) }}</v-col
+                        >
+                        <v-col
+                          cols="12"
+                          class="info-text d-flex flex-row align-start"
+                        >
+                          <span
+                            class="font-weight-bold pr-2"
+                            :style="{
+                              color: secundaryColor,
+                            }"
+                          >
+                            {{
+                              $vuetify.lang.t(`$vuetify.Pokemon.Generation`)
+                            }}:
+                          </span>
+                          {{ getGeneration(ability) }}</v-col
+                        >
+                        <v-col
+                          cols="12"
+                          class="info-text d-flex flex-row align-start"
+                          >{{ getFlavorText(ability) }}</v-col
+                        >
+                        <v-col cols="12">
+                          <v-chip
+                            class="mx-3 px-2"
+                            text-color="white"
+                            :color="mainColor"
+                          >
+                            {{ $vuetify.lang.t(`$vuetify.Ability.Slot`) }} #{{
+                              getAbilitySlot(ability.name)
+                            }}
+                          </v-chip>
+                          <v-chip
+                            class="mx-3 px-2"
+                            text-color="white"
+                            :color="getCaracteristicColor('hidden')"
+                            v-if="getAbilityHidden(ability.name)"
+                          >
+                            {{ $vuetify.lang.t(`$vuetify.Ability.Hidden`) }}
+                          </v-chip>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { Pokemon } from "@/models/Pokemons/Pokemon";
 import { Specie } from "@/models/Specie/Specie";
+import { Ability } from "@/models/Ability/Ability";
+import { getAbilityByName } from "@/service/abilities";
 import PokemonFormatterHelper from "@/utils/PokemonFormatterHelper";
+import AbilityFormatterHelper from "@/utils/AbilityFormatterHelper";
 
 @Component
 export default class PokemonDetails extends Vue {
@@ -168,7 +298,13 @@ export default class PokemonDetails extends Vue {
   @Prop()
   public specie!: Specie;
 
-  public pokemonFormatterHelper = new PokemonFormatterHelper();
+  private tab = null;
+
+  private abilities: Ability[] = [];
+
+  private pokemonFormatterHelper = new PokemonFormatterHelper();
+
+  private abilityFormatterHelper = new AbilityFormatterHelper();
 
   public get mainColor(): string {
     return this.getTypeColor(this.pokemon.types[0].type.name);
@@ -235,6 +371,64 @@ export default class PokemonDetails extends Vue {
   private getTypeColor(name: string): string {
     return this.pokemonFormatterHelper.getTypeColor(name);
   }
+  private getCaracteristicColor(name: string): string {
+    return this.pokemonFormatterHelper.getCaracteristicColor(name);
+  }
+
+  private async mounted(): Promise<void> {
+    this.getAbilities();
+  }
+
+  private getGeneration(ability: Ability): string {
+    return this.abilityFormatterHelper.getGeneration(ability);
+  }
+
+  private getName(ability: Ability): string {
+    return this.abilityFormatterHelper.getName(
+      ability,
+      this.$vuetify.lang.current
+    );
+  }
+
+  private getFlavorText(ability: Ability): string {
+    return this.abilityFormatterHelper.getFlavorText(
+      ability,
+      this.$vuetify.lang.current
+    );
+  }
+
+  @Watch("pokemon")
+  private async getAbilities(): Promise<void> {
+    this.abilities = [];
+    this.pokemon.abilities.forEach(async (a) => {
+      const response = await getAbilityByName(a.ability.name);
+      if (response) {
+        this.abilities.push(response);
+      }
+    });
+  }
+
+  private capitalizeName(name: string, uniqueName = false): string {
+    return this.pokemonFormatterHelper.capitalizeName(
+      this.specie,
+      name,
+      this.$vuetify.lang.current,
+      uniqueName
+    );
+  }
+
+  private getAbilitySlot(name: string): number {
+    return (
+      this.pokemon.abilities.find((a) => a.ability.name === name)?.slot || 0
+    );
+  }
+
+  private getAbilityHidden(name: string): boolean {
+    return (
+      this.pokemon.abilities.find((a) => a.ability.name === name)?.is_hidden ||
+      false
+    );
+  }
 }
 </script>
 
@@ -242,6 +436,55 @@ export default class PokemonDetails extends Vue {
 .fill {
   width: 100vw;
   height: calc(100vh - 52px);
+}
+
+.info-text {
+  font-size: 18px;
+}
+
+.hide {
+  display: none !important;
+}
+
+.card-abilities {
+  margin-top: 25px;
+  font-size: 21px;
+  text-align: center;
+
+  -webkit-animation: fadein 1.5s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1.5s; /* Firefox < 16 */
+  -ms-animation: fadein 1.5s; /* Internet Explorer */
+  -o-animation: fadein 1.5s; /* Opera < 12.1 */
+  animation: fadein 1.5s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media only screen and (max-width: 781px) {
