@@ -60,6 +60,7 @@ export default {
   },
 
   Ability: {
+    Abilities: "능력",
     Hidden: "숨겨진",
     Slot: "위치",
   },

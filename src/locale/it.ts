@@ -60,6 +60,7 @@ export default {
   },
 
   Ability: {
+    Abilities: "Abilità",
     Hidden: "Nascosto",
     Slot: "Posizione",
   },

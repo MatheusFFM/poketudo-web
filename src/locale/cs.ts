@@ -60,6 +60,7 @@ export default {
   },
 
   Ability: {
+    Abilities: "Schopnosti",
     Hidden: "Skrytý",
     Slot: "Pozice",
   },
